@@ -1,23 +1,30 @@
-import sys
-from PyQt5.QtWidgets import QMainWindow
-from PyQt5 import QtCore, QtGui, QtWidgets
-from ClinicManagmentSystemUI import Ui_Dialog
-
-class MainWindow:
-    def __init__(self):
-        self.main_win=QMainWindow()
-        self.ui=Ui_Dialog()
-        self.ui.setupUi(self.main_win)
-
-
-    def show(self):
-        self.main_win.show()
+from email.mime import image
+from tkinter import *
+from PIL import Image, ImageTk
 
 
 
+Clinic_Managment_System = Tk()
+Clinic_Managment_System.geometry("1150x750")
+#Clinic_Managment_System.minsize(900,640)
+#Clinic_Managment_System.maxsize(1150,750)
+Clinic_Managment_System.title("Clinic Managment System with Akshay Mule")
 
-if __name__ == "__main__":
-    app = QtWidgets.QApplication(sys.argv)
-    main_win=QMainWindow()
-    main_win.show()
-    sys.exit(app.exec_())
+
+
+#wlc lable
+welcome = Label(text ="WELCOME TO CLINIC MANAGMENT SYSTEM",bg="lightgreen",fg="red",padx=450,font=("avenir next",15,"bold"))
+welcome.pack()
+
+#bg lable
+cms_bg = Image.open("cms_bg.jpg")
+bg =ImageTk.PhotoImage(cms_bg)
+bg_lable = Label(image=bg)
+bg_lable.pack()
+
+#buttons
+#Button(text="PATIENT").pack(anchor="n",padx=40,pady=0)
+
+
+# Code Outer ends
+Clinic_Managment_System.mainloop()
