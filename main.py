@@ -6,8 +6,8 @@ from PIL import Image, ImageTk
 
 Clinic_Managment_System = Tk()
 Clinic_Managment_System.geometry("1150x750")
-#Clinic_Managment_System.minsize(900,640)
-#Clinic_Managment_System.maxsize(1150,750)
+Clinic_Managment_System.minsize(900,640)
+Clinic_Managment_System.maxsize(1150,750)
 Clinic_Managment_System.title("Clinic Managment System with Akshay Mule")
 
 
@@ -28,5 +28,3 @@ bg_lable.pack()
 
 # Code Outer ends
 Clinic_Managment_System.mainloop()
-
-#akshay
