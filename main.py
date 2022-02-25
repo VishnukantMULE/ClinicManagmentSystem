@@ -28,3 +28,5 @@ bg_lable.pack()
 
 # Code Outer ends
 Clinic_Managment_System.mainloop()
+
+#akshay
