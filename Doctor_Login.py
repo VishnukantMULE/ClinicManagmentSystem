@@ -1,3 +1,16 @@
+from tkinter import *
+
+
+class DoctorLogin:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("DoctorLogin System")
+        self.root.geometry("1030x750")
+
+        root = Tk()
+        obj = DoctorLogin(root)
+        root.mainloop()
+
 # import modules
 from tkinter import *
 #import sqlite3
