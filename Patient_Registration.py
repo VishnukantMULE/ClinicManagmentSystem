@@ -3,18 +3,20 @@ from tkinter import *
 
 
 def getvals():
+
     print(f"F name : {f_name.get()}")
     print(f"The value of password is {m_name.get()}")
+root = Tk()
+root.geometry("1150x750")
+root.title("Clinic Management By AKSHAY MULE")
 
-Clinic_Managment_System = Tk()
-Clinic_Managment_System.geometry("1150x750")
-#Clinic_Managment_System.minsize(900,640)
-#Clinic_Managment_System.maxsize(1150,750)
-Clinic_Managment_System.title("Clinic Managment System with Akshay Mule")
+#  Frame
+Frame_registration = Frame(root,width=100,highlightbackground='black',highlightthickness=3)
+Frame_registration.place(x=0, y=0, width=500, height=400)
 
 # creating the frames in the master
-registration=Frame(Clinic_Managment_System,width=1150,height=700,borderwidth=2,bg="grey",relief=SUNKEN)
-registration.grid()
+registration=Label(root,text="Patient Registration Form",fg="black", font="time 20 bold").grid(row=0,column=3)
+
 
 f_name=StringVar()
 m_name=StringVar()
@@ -36,28 +38,28 @@ address = Entry(registration, textvariable = address)
 pincode = Entry(registration, textvariable = pincode)
 city = Entry(registration, textvariable = state)
 
-f_name.grid(row=5,column=20)
-m_name.grid(row=6,column=20)
-l_name.grid(row=7,column=20)
-e_mail.grid(row=8,column=20)
-m_no.grid(row=9,column=20)
-DOB.grid(row=10,column=20)
-address.grid(row=11,column=20)
-pincode.grid(row=12,column=20)
-city.grid(row=13,column=20)
+f_name.grid(row=1,column=3)
+m_name.grid(row=2,column=3)
+l_name.grid(row=3,column=3)
+e_mail.grid(row=4,column=3)
+m_no.grid(row=5,column=3)
+DOB.grid(row=6,column=3)
+address.grid(row=7,column=3)
+pincode.grid(row=8,column=3)
+city.grid(row=9,column=3)
 
-f_nameL=Label(registration,text="First Name :").grid(row=5,column=19)
-m_nameL=Label(registration,text="Middle Name :").grid(row=6,column=19)
-l_nameL=Label(registration,text="Last Name :").grid(row=7,column=19)
-e_mailL=Label(registration,text="E mail :").grid(row=8,column=19)
-m_noL=Label(registration,text="M no :").grid(row=9,column=19)
-DOBL=Label(registration,text="D-O-B :").grid(row=10,column=19)
-addressL=Label(registration,text="Adress :").grid(row=11,column=19)
-pincodeL=Label(registration,text="Pin Code :").grid(row=12,column=19)
-cityL=Label(registration,text="City :").grid(row=13,column=19)
+f_nameL=Label(registration,text="First Name :").grid(row=1,column=2)
+m_nameL=Label(registration,text="Middle Name :").grid(row=2,column=2)
+l_nameL=Label(registration,text="Last Name :").grid(row=3,column=2)
+e_mailL=Label(registration,text="E mail :").grid(row=4,column=2)
+m_noL=Label(registration,text="M no :").grid(row=5,column=2)
+DOBL=Label(registration,text="D-O-B :").grid(row=6,column=2)
+addressL=Label(registration,text="Adress :").grid(row=7,column=2)
+pincodeL=Label(registration,text="Pin Code :").grid(row=8,column=2)
+cityL=Label(registration,text="City :").grid(row=9,column=2)
 
-Button(registration,text="Submit", command=getvals).grid(row=14,column=20)
+Button(registration,text="Submit", command=getvals).grid(row=18,column=3)
 # Code Outer ends
-Clinic_Managment_System.mainloop()
+root.mainloop()
 
 #akshay

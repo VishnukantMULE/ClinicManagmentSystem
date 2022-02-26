@@ -43,7 +43,7 @@ class Admin_Login:
          elif self.idname.get() != "AVINASH" or self.password.get() != "123456":
              messagebox.showerror("Error", "Invalid Username or Password", parent=self.root)
          else:
-             messagebox.showerror("Welome", f"welcome {self.idname.get()}")
+             messagebox.showerror("Welcome", f"welcome {self.idname.get()}")
 root = Tk()
 obj = Admin_Login(root)
 root.mainloop()
