@@ -4,8 +4,9 @@ s = smtplib.SMTP('smtp.gmail.com', 587)
 s.starttls()
 s.login("vishnukantmule@gmail.com", "cgezqyarhsxghdfy")
 
-message = "Hello User APPOINTMENT BOOKED"
+message = "YOU APPOINTMENT HAS BEEN BOOK "
 
 
-s.sendmail("vishnukant@gmail.com", "akshaymule970@gmail.com", message,)
+s.sendmail("vishnukant@gmail.com", "20104138.avinashandhale@gmail.com", message,)
 s.quit()
+
