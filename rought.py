@@ -63,7 +63,7 @@ class StartPage(tk.Frame):
 
         button2.grid(row=2, column=1, padx=10, pady=10)
 
-        button2 = ttk.Button(self, text="PATEINT",
+        button2 = ttk.Button(self, text="PATIENT",
                              command=lambda: controller.show_frame(Pateint))
         button2.grid(row=3, column=1, padx=10, pady=10)
 
