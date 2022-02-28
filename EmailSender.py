@@ -7,6 +7,6 @@ s.login("vishnukantmule@gmail.com", "cgezqyarhsxghdfy")
 message = "YOU APPOINTMENT HAS BEEN BOOK "
 
 
-s.sendmail("vishnukant@gmail.com", "20104138.avinashandhale@gmail.com", message,)
+s.sendmail("vishnukant@gmail.com", "20104109jeminbhanushali@gmail.com", message,)
 s.quit()
 
