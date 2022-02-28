@@ -1,39 +1,49 @@
+def time1():
+    time_string=time.strftime("%H:%M:%S")
+    date_string=time.strftime("%d:%m:%y")
+    clock.config(text="Time"+time_string+"\n"+"Date:"+date_string)
+    clock.after(200,time1)
+
+
+
+
 from tkinter import *
-from tkinter import messagebox
-from tkinter import messagebox
+from tkinter import Toplevel,messagebox,filedialog
+from tkinter import ttk
+from tkinter.ttk import Treeview
+#import pymysql
+import time
+root=Tk()
+root.title("Clinic Management system")
+root.configure(bg="skyblue")
+root.geometry("1000x600+200+50")
+root.resizable(False,False)
 
-class DOCTOR_DASHBOARD:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("DOCTOR_DASHBOARD ")
-        self.root.geometry("900x500")
-        self.root.resizable(False, False)
+dataentryframe=Frame(root,bg="skyblue",relief=GROOVE,borderwidth=5)
+dataentryframe.place(x=15,y=15,width=300,height=575)
 
-        # Login Frame
-        Frame_login = Frame(self.root, bg="sky blue")
-        Frame_login.place(x=0, y=0, width=250, height=750)
-
-
-        PLANE_login = Frame(self.root, bg="sky blue")
-        PLANE_login.place(x=260, y=0, width=700, height=500)
-
-
-        title = Label(Frame_login, text="DOCTOR DASHBOARD", font=("bold", 11, "bold"), fg="dark blue", bg="sky blue").place(x=20, y=30)
-        subtitle = Label(Frame_login, text="", font=("goudy", 15, "bold"), fg="dark blue", bg="sky blue").place(x=20, y=40)
+clock=Label(dataentryframe,font=('time,75,bold'),relief=GROOVE,bg='skyblue',foreground='black')
+clock.place(x=5,y=5,width=270)
+time1()
 
 
+la1=Label(dataentryframe,text="=====>Menu<=====",font=('time', 20 , 'bold'),bg="skyblue",fg="black")
+la1.place(x=0,y=70)
 
 
-
-        forgetpassword = Button(Frame_login, text="PATIENT LIST", bd=0, cursor="hand2",font=("goudy old style", 12),fg="skyblue", bg="darkblue").place(x=0, y=70, width=230,height=40)
-        submit = Button(Frame_login, cursor="hand2", text="MEDECINE LIST", bd=0,font=("goudy old style", 12), fg="skyblue", bg="darkblue").place(x=0, y=120, width=230,height=40)
-
-        forgetpassword = Button(Frame_login, text="APPOINTMENT STATUS", bd=0, cursor="hand2", font=("goudy old style", 12), fg="skyblue", bg="darkblue").place(x=0, y=170, width=230, height=40)
-        submit = Button(Frame_login, cursor="hand2", text="RECEPTIONIST", bd=0, font=("goudy old style", 12),fg="skyblue", bg="darkblue").place(x=0, y=220, width=230, height=40)
+addbtn=Button(dataentryframe, text="1.PATIEN LISTT", font=("times", 12 ,'bold'), width=25,relief=GROOVE,fg="black", bg="skyblue",bd=6,
+              activebackground="black",activeforeground="white")
+addbtn.place(x=20,y=130)
 
 
 
 
-root = Tk()
-obj = DOCTOR_DASHBOARD(root)
+showdataframe=Frame(root,bg="skyblue",relief=GROOVE,borderwidth=5)
+showdataframe.place(x=320,y=120,width=659,height=470)
+
+titledataframe=Frame(root,bg="skyblue",relief=GROOVE,borderwidth=5)
+titledataframe.place(x=320,y=13,width=659,height=80)
+
+title=Label(titledataframe,text="CLINIC MANAGEMeNT SYSTEM",font=('time',20,'bold'),fg='black',bg='skyblue',width='36')
+title.place(x=15,y=15)
 root.mainloop()
