@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 
+import self
 
 LARGEFONT = ("Verdana", 19)
 
@@ -92,13 +93,13 @@ class Adminlogi(tk.Frame):
         self.idname = ttk.Entry(self, font=("goudy old style", 15), textvariable=self.adminid).grid()
         lbl_password = ttk.Label(self, text="Password", font=("goudy", 15, "bold")).grid()
         self.password = ttk.Entry(self, font=("goudy old style", 15), textvariable=self.password).grid()
-        submit = ttk.Button(self, cursor="hand2", text="LOGIN").grid()
+        submit = ttk.Button(self,command=self.check_function, cursor="hand2", text="LOGIN").grid()
 
-    #def check_function(self.adminid,self.password):
-        # elif self.adminid.get() != "AVINASH" or self.password.get() != "123456":
-         #   messagebox.showerror("Error", "Invalid Username or Password")
-        #else:
-         #   messagebox.showerror("Welcome", f"welcome {self.adminid.get()}")
+    def check_function(self):
+        if self.adminid.get() != "AVINASH" or self.password.get() != "123456":
+            messagebox.showerror("Error", "Invalid Username or Password")
+        else:
+            messagebox.showerror("Welcome", f"welcome {self.adminid.get()}")
 
 
 class Doctorlogin(tk.Frame):
@@ -126,7 +127,7 @@ class Doctorlogin(tk.Frame):
         self.submit = ttk.Button(self, command=self.check_function, cursor="hand2", text="LOGIN").place(x=90, y=320, width=180,
                                                                                                height=40)
 
-    def check_function(self,controller):
+    def check_function(self):
         if self.idname.get() == "" or self.password.get() == "":
             messagebox.showerror("Error", "All fields are required")
         elif self.idname.get() != "abc" or self.password.get() != "123":
