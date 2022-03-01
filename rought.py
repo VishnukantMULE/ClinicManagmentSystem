@@ -2,21 +2,18 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 from PIL import Image, ImageTk
-import smtplib
 import random as r
-
+import smtplib
 
 LARGEFONT = ("Verdana", 40)
 
-# function for otp generation
 def otpgen():
     otp=""
     for i in range(4):
         otp+=str(r.randint(1,9))
-        print(otp)
     return otp
-FinalOtp=otpgen()
 
+finalotp=otpgen()
 
 
 
@@ -241,7 +238,7 @@ class Pateint(tk.Frame):
         self.pincodeL = tk.Label(self, text="Pin Code :",font=6,bg="skyblue").place(x=300,y=520)
         self.cityL = tk.Label(self, text="City :",font=6,bg="skyblue").place(x=300,y=580)
 
-        self.submit = ttk.Button(self, text="Next", style="C.TButton",command=lambda:[self.sendmail, controller.show_frame(OtpCon)] ).place(x=840, y=630,
+        self.submit = ttk.Button(self, text="Next", style="C.TButton",command=lambda:[self.sendmail(), controller.show_frame(OtpCon)] ).place(x=840, y=630,
                                                                                                            width=200,
                                                                                                            height=50)
 
@@ -249,15 +246,30 @@ class Pateint(tk.Frame):
 
 
     def sendmail(self):
+        print(finalotp)
         emailid = self.e_mail.get()
         s = smtplib.SMTP('smtp.gmail.com', 587)
         s.starttls()
         s.login("vishnukantmule@gmail.com", "cgezqyarhsxghdfy")
+        SUBJECT="Verify your Email address"
+        TEXT=f"""TO book your appointment with doctor ,we just need to make sure that this email address is yours.
+        
+        To verify your email address,use this security code:{finalotp}
+        
+        if you didnt request this code. you can safely ignore this email.Someone else might have typed youremail address by mistake.
+        
+        Thanks,
+        The Clinic Managment Team"""
 
-        message = "YOU APPOINTMENT HAS BEEN BOOK "
+        message = 'Subject: {}\n\n{}'.format(SUBJECT, TEXT)
 
-        s.sendmail("vishnukant@gmail.com",emailid, message, )
+        s.sendmail("vishnukantmule@gmail.com", emailid, message,)
         s.quit()
+
+
+
+
+
 
 
 class Admindash(tk.Frame):
@@ -326,8 +338,9 @@ class OtpCon(tk.Frame):
 
 
     def confirmfn(self):
+        print(finalotp)
 
-        if self.VALUE.get() == FinalOtp:
+        if self.VALUE.get() ==finalotp:
             messagebox.showerror("Success", "YOUR EMAIL IS CONFIRMED")
         else:
             messagebox.showerror("Error", "INVALID OTP")
