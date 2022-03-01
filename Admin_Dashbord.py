@@ -35,11 +35,11 @@ addbtn=Button(dataentryframe, text="1.ADD PATIENT", font=("times", 12 ,'bold'), 
               activebackground="black",activeforeground="white")
 addbtn.place(x=20,y=130)
 
-searchbtn=Button(dataentryframe, text="1.SHOW PATIENT", font=("times", 12 ,'bold'), width=25,relief=GROOVE,fg="black", bg="skyblue",bd=6,
+searchbtn=Button(dataentryframe, text="1.PATIENT LIST", font=("times", 12 ,'bold'), width=25,relief=GROOVE,fg="black", bg="skyblue",bd=6,
               activebackground="black",activeforeground="white")
 searchbtn.place(x=20,y=180)
 
-addbtn=Button(dataentryframe, text="1.UPDATE PATIENT", font=("times", 12 ,'bold'), width=25,relief=GROOVE,fg="black", bg="skyblue",bd=6,
+addbtn=Button(dataentryframe, text="1.PATIENT DETAILS", font=("times", 12 ,'bold'), width=25,relief=GROOVE,fg="black", bg="skyblue",bd=6,
               activebackground="black",activeforeground="white")
 addbtn.place(x=20,y=230)
 
@@ -47,11 +47,11 @@ addbtn=Button(dataentryframe, text="1.DELETE PATIENT", font=("times", 12 ,'bold'
               activebackground="black",activeforeground="white")
 addbtn.place(x=20,y=280)
 
-addbtn=Button(dataentryframe, text="1.SHOW PATIENT", font=("times", 12 ,'bold'), width=25,relief=GROOVE,fg="black", bg="skyblue",bd=6,
+addbtn=Button(dataentryframe, text="1.DOCTOR AVAILABLE", font=("times", 12 ,'bold'), width=25,relief=GROOVE,fg="black", bg="skyblue",bd=6,
               activebackground="black",activeforeground="white")
 addbtn.place(x=20,y=330)
 
-addbtn=Button(dataentryframe, text="1.SHOW PATIENT", font=("times", 12 ,'bold'), width=25,relief=GROOVE,fg="black", bg="skyblue",bd=6,
+addbtn=Button(dataentryframe, text="1.SHOW APPOINTMENTS", font=("times", 12 ,'bold'), width=25,relief=GROOVE,fg="black", bg="skyblue",bd=6,
               activebackground="black",activeforeground="white")
 addbtn.place(x=20,y=380)
 
