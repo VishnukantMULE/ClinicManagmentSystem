@@ -334,13 +334,13 @@ class OtpCon(tk.Frame):
         label.place(x=0, y=5)
         self.VALUE = tk.IntVar()
         OTP = tk.Entry(self,width=20,font=20, textvariable=self.VALUE).place(x=500,y=200,height=30)
-        self.GENERATE = ttk.Button(self, text="Confirm", style="C.TButton", command=self.confirmfn).place(x=460,y=400,width=300,height=45)
+        self.GENERATE = ttk.Button(self, text="Confirm", style="C.TButton", command=lambda:[self.confirmfn,controller.show_frame(APPbook)]).place(x=460,y=400,width=300,height=45)
 
 
     def confirmfn(self):
-        print(finalotp)
+        otpsended=finalotp
 
-        if self.VALUE.get() ==finalotp:
+        if self.VALUE.get() ==otpsended:
             messagebox.showerror("Success", "YOUR EMAIL IS CONFIRMED")
         else:
             messagebox.showerror("Error", "INVALID OTP")
@@ -353,25 +353,30 @@ class OtpCon(tk.Frame):
 
 class APPbook(tk.Frame):
     def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
-        label = ttk.Label(self, text="Page 2", font=LARGEFONT)
-        label.grid(row=0, column=4, padx=10, pady=10)
+        tk.Frame.__init__(self, parent, bg="#00FFFF")
+        style = ttk.Style()
+        style.map("C.TButton",
+                  foreground=[('pressed', 'red'), ('active', 'red')],
+                  background=[('pressed', '!disabled', 'red'), ('active', 'lightgreen')]
+                  )
+        self.label = tk.Label(self, text="EMAI-ID CONFIRMATION ...", font=40, bg="red", fg="white", borderwidth=5,
+                         padx=470)
+        self.label.place(x=0, y=5)
 
-        self.heading = ttk.Label(self, text="Book Appointment", font='Verdana 20 bold')
-        self.heading.place(x=470, y=100)
+
 
         # Book DocterLabel
-        self.Docter = ttk.Label(self, text="Docter:", font='Verdana 10 bold')
-        self.Docter.place(x=480, y=145)
+        self.Docter = tk.Label(self, text="Docter:",bg='#00FFFF', font='Verdana 15 bold')
+        self.Docter.place(x=450, y=200)
 
-        self.Day = ttk.Label(self, text="Day:", font='Verdana 10 bold')
-        self.Day.place(x=480, y=165)
+        self.Day = tk.Label(self, text="Day:",bg='#00FFFF', font='Verdana 15 bold')
+        self.Day.place(x=450, y=250)
 
-        self.Month = ttk.Label(self, text="Month:", font='Verdana 10 bold')
-        self.Month.place(x=480, y=185)
+        self.Month = tk.Label(self, text="Month:",bg='#00FFFF', font='Verdana 15 bold')
+        self.Month.place(x=450, y=300)
 
-        self.Year = ttk.Label(self, text="Year:", font='Verdana 10 bold')
-        self.Year.place(x=480, y=205)
+        self.Year = tk.Label(self, text="Year:",bg='#00FFFF', font='Verdana 15 bold')
+        self.Year.place(x=450, y=350)
 
         # Book Docter Entry Box
 
@@ -380,24 +385,24 @@ class APPbook(tk.Frame):
         self.month = tk.StringVar()
         self.year = tk.StringVar()
 
-        self.Docter_box = ttk.Combobox(self, width=30, textvariable=self.docter_var, state='readonly')
-        self.Docter_box['values'] = ('Dr.SHUBHAMAK SAWANT', 'Dr.Mahesh Patil', 'Dr.Ganesh Karad', 'Dr.Vijita Sharma')
+        self.Docter_box = ttk.Combobox(self, width=25,font=20, textvariable=self.docter_var, state='readonly')
+        self.Docter_box['values'] = ('Dr.SHUBHAMAK SAWANT', 'Dr.MAHESH PATIL', 'Dr.GANESH KARAD', 'Dr.VIJITA SHARMA')
         self.Docter_box.current(0)
-        self.Docter_box.place(x=550, y=145)
+        self.Docter_box.place(x=550, y=200)
 
-        self.Day = ttk.Entry(self, width=33, textvariable=self.day)
-        self.Day.place(x=550, y=168)
+        self.Day = ttk.Entry(self, width=25,font=20, textvariable=self.day)
+        self.Day.place(x=550, y=250)
 
-        self.Month_Box = ttk.Combobox(self, width=30, textvariable=self.month, state='readonly')
+        self.Month_Box = ttk.Combobox(self, width=25,font=20, textvariable=self.month, state='readonly')
         self.Month_Box['values'] = (
             'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
             'November',
             'December')
         self.Month_Box.current(0)
-        self.Month_Box.place(x=550, y=188)
+        self.Month_Box.place(x=550, y=300)
 
-        self.Year = ttk.Entry(self, width=33, textvariable=self.year)
-        self.Year.place(x=550, y=208)
+        self.Year = ttk.Entry(self, width=25,font=20, textvariable=self.year)
+        self.Year.place(x=550, y=350)
 
 
 # Driver Code
