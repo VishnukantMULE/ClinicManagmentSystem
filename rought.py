@@ -74,7 +74,7 @@ class StartPage(tk.Frame):
         img = Image.open('hospital.png')
         self.tkimage = ImageTk.PhotoImage(img)
         tk.Label(self, image=self.tkimage).place(x=150, y=180)
-        label = tk.Label(self, text="aninash andhale(led)     prathamesh naik      jemin bhanushali     vishnukant mule", font=30, bg="orange", fg="white", padx=380)
+        label = tk.Label(self, text="Avinash Andhale(led)     Prathamesh Naik      jemin bhanushali     Vishnukant Mule", font=30, bg="orange", fg="white", padx=380)
         label.place(x=0, y=680)
 
         button1 = ttk.Button(self, text="ADMIN",
