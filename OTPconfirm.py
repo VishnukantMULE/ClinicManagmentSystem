@@ -1,8 +1,13 @@
-from tkinter import *
-root=Tk()
-root.geometry("1000×700")
-OTPGENERATE=Button(text="OTPGENERATE")
-OTPGENERATE.pack()
+import time
 
+def countdown(time_sec):
+    while time_sec:
+        mins, secs = divmod(time_sec, 60)
+        timeformat = '{:02d}:{:02d}'.format(mins, secs)
+        print(timeformat, end='\r')
+        time.sleep(1)
+        time_sec -= 1
 
-root.mainloop()
+    print("stop")
+
+countdown(60)
