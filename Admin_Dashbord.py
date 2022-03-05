@@ -62,6 +62,6 @@ showdataframe.place(x=320,y=120,width=659,height=470)
 titledataframe=Frame(root,bg="skyblue",relief=GROOVE,borderwidth=5)
 titledataframe.place(x=320,y=13,width=659,height=80)
 
-title=Label(titledataframe,text="CLINIC MANAGEMeNT SYSTEM",font=('time',20,'bold'),fg='black',bg='skyblue',width='36')
+title=Label(titledataframe,text="CLINIC MANAGEMENT SYSTEM",font=('time',20,'bold'),fg='black',bg='skyblue',width='36')
 title.place(x=15,y=15)
 root.mainloop()
