@@ -342,7 +342,7 @@ class Sdoctor(tk.Frame):
 
 
         # Buttons
-        self.dr_a = ttk.Button(self, text="Dr.SHUBHAMAK SAWANT",style="C.TButton",command=lambda: controller.show_frame(sawantINFO)).place(x=160,y=330,width=155,height=32)
+        self.dr_a = ttk.Button(self, text="Dr.Shubhamak SawantT",style="C.TButton",command=lambda: controller.show_frame(sawantINFO)).place(x=160,y=330,width=155,height=32)
         self.dr_b = ttk.Button(self, text="Dr.Mahesh Patil",style="C.TButton",command=lambda: controller.show_frame(patilINFO)).place(x=800,y=330,width=155,height=32)
         self.dr_c = ttk.Button(self, text="Dr.Ganesh Karad",style="C.TButton",command=lambda: controller.show_frame(karadINFO)).place(x=160,y=640,width=155,height=32)
         self.dr_d = ttk.Button(self, text="Dr.Anjali Mule",style="C.TButton",command=lambda: controller.show_frame(muleIINFO)).place(x=800,y=640,width=155,height=32)
@@ -366,16 +366,18 @@ class OtpCon(tk.Frame):
 
         self.VALUE = tk.IntVar()
         OTP = tk.Entry(self,width=20,font=20, textvariable=self.VALUE).place(x=500,y=200,height=30)
-        self.GENERATE = ttk.Button(self, text="Confirm", style="C.TButton", command=lambda:[self.confirmfn,controller.show_frame(APPbook)]).place(x=460,y=400,width=300,height=45)
+        self.GENERATE = ttk.Button(self, text="Confirm", style="C.TButton", command=lambda:[self.confirmfn]).place(x=460,y=400,width=300,height=45)
 
 
-    def confirmfn(self):
+    def confirmfn(self,parent, controller):
         otpsended=finalotp
 
         if self.VALUE.get() ==otpsended:
             messagebox.showerror("Success", "YOUR EMAIL IS CONFIRMED")
+            return lambda : controller.show_frame(APPbook)
         else:
             messagebox.showerror("Error", "INVALID OTP")
+            return 0
 class APPbook(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent, bg="skyblue")
