@@ -253,7 +253,7 @@ class Pateint(tk.Frame):
             "VALUES (%s, %s, %s, %s, %s ,%s ,%s ,%s ,%s)"
         )
         data = (fname, lname, gender, mob, emailid, dob, address, pincode, state)
-
+        cursor = conn.cursor()
 
             # Executing the SQL command
         cursor.execute(insert_stmt, data)
