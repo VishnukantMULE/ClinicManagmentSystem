@@ -4,6 +4,7 @@ from tkinter import messagebox
 from PIL import Image, ImageTk
 import random as r
 import smtplib
+import mysql.connector
 
 LARGEFONT = ("Verdana", 15)
 
@@ -98,6 +99,8 @@ class Adminlogi(tk.Frame):
         label = tk.Label(self, text="ADMIN LOGIN", font=40, bg="red", fg="white", borderwidth=5,
                          padx=550)
         label.place(x=0, y=5)
+        tk.Button(self,text="⌂",bg='white',command=lambda: controller.show_frame(StartPage)).place(x=10, y=12)
+
         img = Image.open('adminlogo.png')
         self.tkimage = ImageTk.PhotoImage(img)
         tk.Label(self, image=self.tkimage).place(x=500, y=90)
@@ -139,6 +142,8 @@ class Doctorlogin(tk.Frame):
         label = tk.Label(self, text="DOCTOR LOGIN ...", font=40, bg="red", fg="white", borderwidth=5,
                          padx=550)
         label.place(x=0, y=5)
+        tk.Button(self,text="⌂",bg='white',command=lambda: controller.show_frame(StartPage)).place(x=10, y=12)
+
         img = Image.open('adminlogo.png')
         self.tkimage = ImageTk.PhotoImage(img)
         tk.Label(self, image=self.tkimage).place(x=500, y=90)
@@ -178,6 +183,8 @@ class Pateint(tk.Frame):
         label = tk.Label(self, text="PATEINT REGISTRATION FORM ...", font=40, bg="red", fg="white", borderwidth=5,
                          padx=470)
         label.place(x=0, y=5)
+        tk.Button(self,text="⌂",bg='white',command=lambda: controller.show_frame(StartPage)).place(x=10, y=12)
+
 
 
 
@@ -223,15 +230,47 @@ class Pateint(tk.Frame):
         self.pincodeL = tk.Label(self, text="Pin Code :",font=6,bg="skyblue").place(x=300,y=520)
         self.cityL = tk.Label(self, text="City :",font=6,bg="skyblue").place(x=300,y=580)
 
-        self.submit = ttk.Button(self, text="Next", style="C.TButton",command=lambda:[self.sendmail(), controller.show_frame(OtpCon)] ).place(x=840, y=630,
+        self.submit = ttk.Button(self, text="Next", style="C.TButton",command=lambda:[self.sendmail(),self.dataB(), controller.show_frame(OtpCon)] ).place(x=840, y=630,
                                                                                                            width=200,
                                                                                                            height=50)
 
+    def dataB(self):
+        conn = mysql.connector.connect(
+            user='root', password='', host='127.0.0.1', database='clinic_managment_system')
+
+        emailid = self.e_mail.get()
+        fname = self.f_name.get()
+        lname = self.l_name.get()
+        gender = self.var.get()
+        mob = self.m_no.get()
+        dob = self.DOB.get()
+        address = self.address.get()
+        pincode = self.pincode.get()
+        state = self.state.get()
+
+        insert_stmt = (
+            "INSERT INTO pateint_details(First_Name, Last_Name,Gender,Mobile,Email,D_O_B,Address,Pincode,State)"
+            "VALUES (%s, %s, %s, %s, %s ,%s ,%s ,%s ,%s)"
+        )
+        data = (fname, lname, gender, mob, emailid, dob, address, pincode, state)
 
 
+            # Executing the SQL command
+        cursor.execute(insert_stmt, data)
 
+
+            # Commit your changes in the database
+        conn.commit()
+
+
+            # Rolling back in case of error
+        #conn.rollback()
+        conn.close()
     def sendmail(self):
         emailid = self.e_mail.get()
+
+
+
         try :
           s = smtplib.SMTP('smtp.gmail.com', 587)
           s.starttls()
@@ -252,6 +291,8 @@ class Pateint(tk.Frame):
           s.quit()
         except:
             messagebox.showerror("Error", "YOU ENTER WRONG EMAIL-ID PLEASE TRY TO CORRECT")
+
+
 class Admindash(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -273,6 +314,10 @@ class Sdoctor(tk.Frame):
         label = tk.Label(self, text="OUR BEST DOCTORS", font=40, bg="red", fg="white", borderwidth=5,
                          padx=550)
         label.place(x=0, y=5)
+
+        tk.Button(self,text="⌂",bg='white',command=lambda: controller.show_frame(StartPage)).place(x=10, y=12)
+        tk.Button(self,text="🢀",bg='white').place(x=30, y=12)
+
 
         img3 = Image.open('mahesh.jpg')
         self.tkimage3 = ImageTk.PhotoImage(img3)
@@ -317,6 +362,8 @@ class OtpCon(tk.Frame):
         label = tk.Label(self, text="EMAI-ID CONFIRMATION ...", font=40, bg="red", fg="white", borderwidth=5,
                          padx=470)
         label.place(x=0, y=5)
+        tk.Button(self,text="⌂",bg='white',command=lambda: controller.show_frame(StartPage)).place(x=10, y=12)
+
         self.VALUE = tk.IntVar()
         OTP = tk.Entry(self,width=20,font=20, textvariable=self.VALUE).place(x=500,y=200,height=30)
         self.GENERATE = ttk.Button(self, text="Confirm", style="C.TButton", command=lambda:[self.confirmfn,controller.show_frame(APPbook)]).place(x=460,y=400,width=300,height=45)
@@ -340,6 +387,8 @@ class APPbook(tk.Frame):
                   )
         self.label = tk.Label(self, text="EMAI-ID CONFIRMATION ...", font=40, bg="red", fg="white", borderwidth=5,
                          padx=470)
+        tk.Button(self,text="⌂",bg='white',command=lambda: controller.show_frame(StartPage)).place(x=10, y=12)
+
         self.label.place(x=0, y=5)
 
 
@@ -395,6 +444,8 @@ class sawantINFO(tk.Frame):
         self.label = tk.Label(self, text="Dr.Shubhamak Sawant", font=40, bg="red", fg="white", borderwidth=5,
                               padx=530)
         self.label.place(x=0, y=5)
+        tk.Button(self,text="⌂",bg='white',command=lambda: controller.show_frame(StartPage)).place(x=10, y=12)
+
         img = Image.open('shubhamak.jpg')
         self.tkimage = ImageTk.PhotoImage(img)
         tk.Label(self, image=self.tkimage, bg='red').place(x=60, y=50)
@@ -427,25 +478,27 @@ class sawantINFO(tk.Frame):
                               bg='skyblue', font=20).place(x=390, y=570)
 
         self.label = tk.Label(self, text="OPD :", fg='red', bg='skyblue', font=LARGEFONT).place(x=40, y=350)
-        self.label = tk.Label(self, text="""● MONDAY        :  10:00 am to 2:00 pm""", fg='black', bg='skyblue',
-                              font=20).place(x=40, y=390)
-        self.label = tk.Label(self, text="""● TUESDAY       :  10:00 am to 2:00 pm""", fg='black', bg='skyblue',
-                              font=20).place(x=40, y=420)
-        self.label = tk.Label(self, text="""● WEDNESDAY:  10:00 am to 2:00 pm""", fg='black', bg='skyblue',
-                              font=20).place(x=40, y=450)
-        self.label = tk.Label(self, text="""● THRUSDAY    :  10:00 am to 2:00 pm""", fg='black', bg='skyblue',
-                              font=20).place(x=40, y=480)
-        self.label = tk.Label(self, text="""● FRIDAY          :  OFF""", fg='black', bg='skyblue', font=20).place(x=40,
-                                                                                                                  y=510)
-        self.label = tk.Label(self, text="""● SATURDAY   :  10:00 am to 2:00 pm""", fg='black', bg='skyblue',
-                              font=20).place(x=40, y=540)
-        self.label = tk.Label(self, text="""● SUNDAY       :  OFF""", fg='black', bg='skyblue', font=20).place(x=40,
-                                                                                                               y=570)
+        self.label = tk.Label(self, text="● MONDAY:10 am to 2 pm", fg='black', bg='skyblue', font=10).place(x=30, y=390)
+        self.label = tk.Label(self, text="● TUESDAY:10 am to 2 pm", fg='black', bg='skyblue', font=10).place(x=30,
+                                                                                                             y=420)
+        self.label = tk.Label(self, text="● WEDNESDAY:10 am to 2 pm", fg='black', bg='skyblue', font=10).place(x=30,
+                                                                                                               y=450)
+        self.label = tk.Label(self, text="● THRUSDAY:10 am to 2 pm", fg='black', bg='skyblue', font=10).place(x=30,
+                                                                                                              y=480)
+        self.label = tk.Label(self, text="● FRIDAY:OFF", fg='black', bg='skyblue', font=10).place(x=30, y=510)
+        self.label = tk.Label(self, text="● SATURDAY:  10 am to 2 pm", fg='black', bg='skyblue', font=10).place(x=30,
+                                                                                                                y=540)
+        self.label = tk.Label(self, text="● SUNDAY :  OFF", fg='black', bg='skyblue', font=10).place(x=30, y=570)
+
+        self.label = tk.Label(self, text="COTACT :", fg='red', bg='skyblue', font=LARGEFONT).place(x=40, y=610)
+        self.label = tk.Label(self, text="● +91-9326513775 ", fg='black', bg='skyblue', font=10).place(x=30, y=650)
+
+
 
         self.label = tk.Label(self, text="", font=40, bg="green", fg="white", borderwidth=0.2,
                               pady=330).place(x=330, y=50)
 
-        button2 = ttk.Button(self, text="BOOK APPOINTMENT",
+        button2 = ttk.Button(self, text="REQUEST AN APPOINTMENT",
                              command=lambda: controller.show_frame(Pateint), style="C.TButton")
         button2.place(x=810, y=620, width=220, height=50)
 
@@ -459,60 +512,54 @@ class patilINFO(tk.Frame):
                   background=[('pressed', '!disabled', 'red'), ('active', 'lightgreen')]
 
                   )
-        self.label = tk.Label(self, text="Dr.Anjali Mule", font=40, bg="red", fg="white", borderwidth=5,
+        self.label = tk.Label(self, text="Dr.Mahesh Patil", font=40, bg="red", fg="white", borderwidth=5,
                               padx=530)
         self.label.place(x=0, y=5)
-        img = Image.open('vijita.jpg')
+        tk.Button(self,text="⌂",bg='white',command=lambda: controller.show_frame(StartPage)).place(x=10, y=12)
+
+        img = Image.open('mahesh.jpg')
         self.tkimage = ImageTk.PhotoImage(img)
         tk.Label(self, image=self.tkimage, bg='red').place(x=60, y=50)
-        self.label = tk.Label(self, text="Dr.Anjali S Mule", bg='skyblue', font=LARGEFONT).place(x=80, y=290)
+        self.label = tk.Label(self, text="Dr.Mahesh Patil", bg='skyblue', font=LARGEFONT).place(x=80, y=290)
         self.label = tk.Label(self, text="Specializations :", fg='red', bg='skyblue', font=LARGEFONT).place(x=370, y=60)
-        self.label = tk.Label(self, text="⏺   Chest Medicine ", fg='black', bg='skyblue', font=20).place(x=390, y=100)
-        self.label = tk.Label(self, text="⏺   Consultant - Chest Physician ", fg='black', bg='skyblue', font=20).place(
+        self.label = tk.Label(self, text="⏺   General Surgery ", fg='black', bg='skyblue', font=20).place(x=390, y=100)
+        self.label = tk.Label(self, text="⏺   Consultant - Laparoscopic Surgery & General Surgery ", fg='black', bg='skyblue', font=20).place(
             x=390, y=130)
 
         self.label = tk.Label(self, text="Qualification :", fg='red', bg='skyblue', font=LARGEFONT).place(x=370, y=200)
-        self.label = tk.Label(self, text="⏺   M.D ( Chest & TB) ", fg='black', bg='skyblue', font=20).place(x=390,
+        self.label = tk.Label(self, text="⏺  MBBS", fg='black', bg='skyblue', font=20).place(x=390,
                                                                                                             y=240)
-        self.label = tk.Label(self, text="⏺   DNBE ", fg='black', bg='skyblue', font=20).place(x=390, y=270)
+        self.label = tk.Label(self, text="⏺   MS ", fg='black', bg='skyblue', font=20).place(x=390, y=270)
 
         self.label = tk.Label(self, text="Experience :", fg='red', bg='skyblue', font=LARGEFONT).place(x=370, y=320)
-        self.label = tk.Label(self, text="⏺   Consultant Chest Physician at Jupiter Hospital ", fg='black',
+        self.label = tk.Label(self, text="⏺   2 Years Experience in General surgery ", fg='black',
                               bg='skyblue', font=20).place(x=390, y=360)
-        self.label = tk.Label(self, text="⏺   Practising Chest Physician since 17years ", fg='black', bg='skyblue',
-                              font=20).place(x=390, y=390)
-        self.label = tk.Label(self, text="⏺   Ex-Honorary TB specialist and Unit head at GTB Hospital, Seweri ",
-                              fg='black', bg='skyblue', font=20).place(x=390, y=420)
-        self.label = tk.Label(self,
-                              text="⏺   Teaching experience of 9 years in Rajiv Gandhi Medical College and GS Medical College ",
-                              fg='black', bg='skyblue', font=20).place(x=390, y=450)
 
         self.label = tk.Label(self, text="Awards :", fg='red', bg='skyblue', font=LARGEFONT).place(x=370, y=500)
-        self.label = tk.Label(self, text="⏺   Presented papers at SRSC ", fg='black', bg='skyblue', font=20).place(
+        self.label = tk.Label(self, text="⏺  Vice President Centra zone IAGES 2014-2018 ", fg='black', bg='skyblue', font=20).place(
             x=390, y=540)
-        self.label = tk.Label(self, text="⏺   Management of MDR TB in resource limited setting in India. ", fg='black',
+        self.label = tk.Label(self, text="⏺   Secretary Atysi From 2016 to Till  date. ", fg='black',
                               bg='skyblue', font=20).place(x=390, y=570)
 
         self.label = tk.Label(self, text="OPD :", fg='red', bg='skyblue', font=LARGEFONT).place(x=40, y=350)
-        self.label = tk.Label(self, text="""● MONDAY        :  10:00 am to 2:00 pm""", fg='black', bg='skyblue',
-                              font=20).place(x=40, y=390)
-        self.label = tk.Label(self, text="""● TUESDAY       :  10:00 am to 2:00 pm""", fg='black', bg='skyblue',
-                              font=20).place(x=40, y=420)
-        self.label = tk.Label(self, text="""● WEDNESDAY:  10:00 am to 2:00 pm""", fg='black', bg='skyblue',
-                              font=20).place(x=40, y=450)
-        self.label = tk.Label(self, text="""● THRUSDAY    :  10:00 am to 2:00 pm""", fg='black', bg='skyblue',
-                              font=20).place(x=40, y=480)
-        self.label = tk.Label(self, text="""● FRIDAY          :  OFF""", fg='black', bg='skyblue', font=20).place(x=40,
-                                                                                                                  y=510)
-        self.label = tk.Label(self, text="""● SATURDAY   :  10:00 am to 2:00 pm""", fg='black', bg='skyblue',
-                              font=20).place(x=40, y=540)
-        self.label = tk.Label(self, text="""● SUNDAY       :  OFF""", fg='black', bg='skyblue', font=20).place(x=40,
-                                                                                                               y=570)
+        self.label = tk.Label(self, text="● MONDAY:10 am to 2 pm", fg='black', bg='skyblue', font=10).place(x=30, y=390)
+        self.label = tk.Label(self, text="● TUESDAY:10 am to 2 pm", fg='black', bg='skyblue', font=10).place(x=30,
+                                                                                                             y=420)
+        self.label = tk.Label(self, text="● WEDNESDAY:10 am to 2 pm", fg='black', bg='skyblue', font=10).place(x=30,
+                                                                                                               y=450)
+        self.label = tk.Label(self, text="● THRUSDAY:10 am to 2 pm", fg='black', bg='skyblue', font=10).place(x=30,
+                                                                                                              y=480)
+        self.label = tk.Label(self, text="● FRIDAY:OFF", fg='black', bg='skyblue', font=10).place(x=30, y=510)
+        self.label = tk.Label(self, text="● SATURDAY:  10 am to 2 pm", fg='black', bg='skyblue', font=10).place(x=30,
+                                                                                                                y=540)
+        self.label = tk.Label(self, text="● SUNDAY :  OFF", fg='black', bg='skyblue', font=10).place(x=30, y=570)
 
         self.label = tk.Label(self, text="", font=40, bg="green", fg="white", borderwidth=0.2,
                               pady=330).place(x=330, y=50)
+        self.label = tk.Label(self, text="COTACT :", fg='red', bg='skyblue', font=LARGEFONT).place(x=40, y=610)
+        self.label = tk.Label(self, text="● +91-8754236978 ", fg='black', bg='skyblue', font=10).place(x=30, y=650)
 
-        button2 = ttk.Button(self, text="BOOK APPOINTMENT",
+        button2 = ttk.Button(self, text="REQUEST AN APPOINTMENT",
                              command=lambda: controller.show_frame(Pateint), style="C.TButton")
         button2.place(x=810, y=620, width=220, height=50)
 
@@ -526,60 +573,52 @@ class karadINFO(tk.Frame):
                   background=[('pressed', '!disabled', 'red'), ('active', 'lightgreen')]
 
                   )
-        self.label = tk.Label(self, text="Dr.Anjali Mule", font=40, bg="red", fg="white", borderwidth=5,
+        self.label = tk.Label(self, text="Dr.Ganesh Karad", font=40, bg="red", fg="white", borderwidth=5,
                               padx=530)
         self.label.place(x=0, y=5)
-        img = Image.open('vijita.jpg')
+        tk.Button(self,text="⌂",bg='white',command=lambda: controller.show_frame(StartPage)).place(x=10, y=12)
+
+        img = Image.open('ganesh.jpg')
         self.tkimage = ImageTk.PhotoImage(img)
         tk.Label(self, image=self.tkimage, bg='red').place(x=60, y=50)
-        self.label = tk.Label(self, text="Dr.Anjali S Mule", bg='skyblue', font=LARGEFONT).place(x=80, y=290)
+        self.label = tk.Label(self, text="Dr.Ganesh Karad", bg='skyblue', font=LARGEFONT).place(x=80, y=290)
         self.label = tk.Label(self, text="Specializations :", fg='red', bg='skyblue', font=LARGEFONT).place(x=370, y=60)
-        self.label = tk.Label(self, text="⏺   Chest Medicine ", fg='black', bg='skyblue', font=20).place(x=390, y=100)
-        self.label = tk.Label(self, text="⏺   Consultant - Chest Physician ", fg='black', bg='skyblue', font=20).place(
+        self.label = tk.Label(self, text="⏺   Internal Medicine ", fg='black', bg='skyblue', font=20).place(x=390, y=100)
+        self.label = tk.Label(self, text="⏺   Consultant - Internal Medicine ", fg='black', bg='skyblue', font=20).place(
             x=390, y=130)
 
         self.label = tk.Label(self, text="Qualification :", fg='red', bg='skyblue', font=LARGEFONT).place(x=370, y=200)
-        self.label = tk.Label(self, text="⏺   M.D ( Chest & TB) ", fg='black', bg='skyblue', font=20).place(x=390,
+        self.label = tk.Label(self, text="⏺   M.B.B.S. MGM Medical College, Indore ", fg='black', bg='skyblue', font=20).place(x=390,
                                                                                                             y=240)
-        self.label = tk.Label(self, text="⏺   DNBE ", fg='black', bg='skyblue', font=20).place(x=390, y=270)
+        self.label = tk.Label(self, text="⏺   M.D. Medicine MGM Medical College, Indore ", fg='black', bg='skyblue', font=20).place(x=390, y=270)
 
         self.label = tk.Label(self, text="Experience :", fg='red', bg='skyblue', font=LARGEFONT).place(x=370, y=320)
-        self.label = tk.Label(self, text="⏺   Consultant Chest Physician at Jupiter Hospital ", fg='black',
+        self.label = tk.Label(self, text="⏺   9 Years Clinical Experience ", fg='black',
                               bg='skyblue', font=20).place(x=390, y=360)
-        self.label = tk.Label(self, text="⏺   Practising Chest Physician since 17years ", fg='black', bg='skyblue',
-                              font=20).place(x=390, y=390)
-        self.label = tk.Label(self, text="⏺   Ex-Honorary TB specialist and Unit head at GTB Hospital, Seweri ",
-                              fg='black', bg='skyblue', font=20).place(x=390, y=420)
-        self.label = tk.Label(self,
-                              text="⏺   Teaching experience of 9 years in Rajiv Gandhi Medical College and GS Medical College ",
-                              fg='black', bg='skyblue', font=20).place(x=390, y=450)
 
         self.label = tk.Label(self, text="Awards :", fg='red', bg='skyblue', font=LARGEFONT).place(x=370, y=500)
-        self.label = tk.Label(self, text="⏺   Presented papers at SRSC ", fg='black', bg='skyblue', font=20).place(
+        self.label = tk.Label(self, text="⏺   Attended many conferences ", fg='black', bg='skyblue', font=20).place(
             x=390, y=540)
-        self.label = tk.Label(self, text="⏺   Management of MDR TB in resource limited setting in India. ", fg='black',
-                              bg='skyblue', font=20).place(x=390, y=570)
+
 
         self.label = tk.Label(self, text="OPD :", fg='red', bg='skyblue', font=LARGEFONT).place(x=40, y=350)
-        self.label = tk.Label(self, text="""● MONDAY        :  10:00 am to 2:00 pm""", fg='black', bg='skyblue',
-                              font=20).place(x=40, y=390)
-        self.label = tk.Label(self, text="""● TUESDAY       :  10:00 am to 2:00 pm""", fg='black', bg='skyblue',
-                              font=20).place(x=40, y=420)
-        self.label = tk.Label(self, text="""● WEDNESDAY:  10:00 am to 2:00 pm""", fg='black', bg='skyblue',
-                              font=20).place(x=40, y=450)
-        self.label = tk.Label(self, text="""● THRUSDAY    :  10:00 am to 2:00 pm""", fg='black', bg='skyblue',
-                              font=20).place(x=40, y=480)
-        self.label = tk.Label(self, text="""● FRIDAY          :  OFF""", fg='black', bg='skyblue', font=20).place(x=40,
-                                                                                                                  y=510)
-        self.label = tk.Label(self, text="""● SATURDAY   :  10:00 am to 2:00 pm""", fg='black', bg='skyblue',
-                              font=20).place(x=40, y=540)
-        self.label = tk.Label(self, text="""● SUNDAY       :  OFF""", fg='black', bg='skyblue', font=20).place(x=40,
-                                                                                                               y=570)
-
+        self.label = tk.Label(self, text="● MONDAY:10 am to 2 pm", fg='black', bg='skyblue', font=10).place(x=30, y=390)
+        self.label = tk.Label(self, text="● TUESDAY:10 am to 2 pm", fg='black', bg='skyblue', font=10).place(x=30,
+                                                                                                             y=420)
+        self.label = tk.Label(self, text="● WEDNESDAY:10 am to 2 pm", fg='black', bg='skyblue', font=10).place(x=30,
+                                                                                                               y=450)
+        self.label = tk.Label(self, text="● THRUSDAY:10 am to 2 pm", fg='black', bg='skyblue', font=10).place(x=30,
+                                                                                                              y=480)
+        self.label = tk.Label(self, text="● FRIDAY:OFF", fg='black', bg='skyblue', font=10).place(x=30, y=510)
+        self.label = tk.Label(self, text="● SATURDAY:  10 am to 2 pm", fg='black', bg='skyblue', font=10).place(x=30,
+                                                                                                                y=540)
+        self.label = tk.Label(self, text="● SUNDAY :  OFF", fg='black', bg='skyblue', font=10).place(x=30, y=570)
         self.label = tk.Label(self, text="", font=40, bg="green", fg="white", borderwidth=0.2,
                               pady=330).place(x=330, y=50)
+        self.label = tk.Label(self, text="COTACT :", fg='red', bg='skyblue', font=LARGEFONT).place(x=40, y=610)
+        self.label = tk.Label(self, text="● +91-9821400548 ", fg='black', bg='skyblue', font=10).place(x=30, y=650)
 
-        button2 = ttk.Button(self, text="BOOK APPOINTMENT",
+        button2 = ttk.Button(self, text="REQUEST AN APPOINTMENT",
                              command=lambda: controller.show_frame(Pateint), style="C.TButton")
         button2.place(x=810, y=620, width=220, height=50)
 
@@ -596,6 +635,8 @@ class muleIINFO(tk.Frame):
         self.label = tk.Label(self, text="Dr.Anjali Mule", font=40, bg="red", fg="white", borderwidth=5,
                               padx=530)
         self.label.place(x=0, y=5)
+        tk.Button(self,text="⌂",bg='white',command=lambda: controller.show_frame(StartPage)).place(x=10, y=12)
+
         img = Image.open('vijita.jpg')
         self.tkimage = ImageTk.PhotoImage(img)
         tk.Label(self, image=self.tkimage, bg='red').place(x=60, y=50)
@@ -616,25 +657,27 @@ class muleIINFO(tk.Frame):
         self.label=tk.Label(self,text="⏺   Consultant Chest Physician at Jupiter Hospital ",fg='black',bg='skyblue',font=20).place(x=390,y=360)
         self.label=tk.Label(self,text="⏺   Practising Chest Physician since 17years ",fg='black',bg='skyblue',font=20).place(x=390,y=390)
         self.label=tk.Label(self,text="⏺   Ex-Honorary TB specialist and Unit head at GTB Hospital, Seweri ",fg='black',bg='skyblue',font=20).place(x=390,y=420)
-        self.label=tk.Label(self,text="⏺   Teaching experience of 9 years in Rajiv Gandhi Medical College and GS Medical College ",fg='black',bg='skyblue',font=20).place(x=390,y=450)
+        self.label=tk.Label(self,text="⏺   Teaching experience of 9 years in Rajiv Gandhi Medical College ",fg='black',bg='skyblue',font=20).place(x=390,y=450)
 
         self.label=tk.Label(self,text="Awards :",fg='red',bg='skyblue',font=LARGEFONT).place(x=370,y=500)
         self.label=tk.Label(self,text="⏺   Presented papers at SRSC ",fg='black',bg='skyblue',font=20).place(x=390,y=540)
         self.label=tk.Label(self,text="⏺   Management of MDR TB in resource limited setting in India. ",fg='black',bg='skyblue',font=20).place(x=390,y=570)
 
         self.label=tk.Label(self,text="OPD :",fg='red',bg='skyblue',font=LARGEFONT).place(x=40,y=350)
-        self.label=tk.Label(self,text="""● MONDAY        :  10:00 am to 2:00 pm""",fg='black',bg='skyblue',font=20).place(x=40,y=390)
-        self.label=tk.Label(self,text="""● TUESDAY       :  10:00 am to 2:00 pm""",fg='black',bg='skyblue',font=20).place(x=40,y=420)
-        self.label=tk.Label(self,text="""● WEDNESDAY:  10:00 am to 2:00 pm""",fg='black',bg='skyblue',font=20).place(x=40,y=450)
-        self.label=tk.Label(self,text="""● THRUSDAY    :  10:00 am to 2:00 pm""",fg='black',bg='skyblue',font=20).place(x=40,y=480)
-        self.label=tk.Label(self,text="""● FRIDAY          :  OFF""",fg='black',bg='skyblue',font=20).place(x=40,y=510)
-        self.label=tk.Label(self,text="""● SATURDAY   :  10:00 am to 2:00 pm""",fg='black',bg='skyblue',font=20).place(x=40,y=540)
-        self.label=tk.Label(self,text="""● SUNDAY       :  OFF""",fg='black',bg='skyblue',font=20).place(x=40,y=570)
+        self.label=tk.Label(self,text="● MONDAY:10 am to 2 pm",fg='black',bg='skyblue',font=10).place(x=30,y=390)
+        self.label=tk.Label(self,text="● TUESDAY:10 am to 2 pm",fg='black',bg='skyblue',font=10).place(x=30,y=420)
+        self.label=tk.Label(self,text="● WEDNESDAY:10 am to 2 pm",fg='black',bg='skyblue',font=10).place(x=30,y=450)
+        self.label=tk.Label(self,text="● THRUSDAY:10 am to 2 pm",fg='black',bg='skyblue',font=10).place(x=30,y=480)
+        self.label=tk.Label(self,text="● FRIDAY:OFF",fg='black',bg='skyblue',font=10).place(x=30,y=510)
+        self.label=tk.Label(self,text="● SATURDAY:  10 am to 2 pm",fg='black',bg='skyblue',font=10).place(x=30,y=540)
+        self.label=tk.Label(self,text="● SUNDAY :  OFF",fg='black',bg='skyblue',font=10).place(x=30,y=570)
+        self.label = tk.Label(self, text="COTACT :", fg='red', bg='skyblue', font=LARGEFONT).place(x=40, y=610)
+        self.label = tk.Label(self, text="● +91-7842513674 ", fg='black', bg='skyblue', font=10).place(x=30, y=650)
 
         self.label = tk.Label(self, text="", font=40, bg="green", fg="white", borderwidth=0.2,
                               pady=330).place(x=330,y=50)
 
-        button2 = ttk.Button(self, text="BOOK APPOINTMENT",
+        button2 = ttk.Button(self, text="REQUEST AN APPOINTMENT",
                              command=lambda: controller.show_frame(Pateint), style="C.TButton")
         button2.place(x=810, y=620, width=220, height=50)
 
