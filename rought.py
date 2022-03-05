@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
+
+#import controller as controller
 from PIL import Image, ImageTk
 import random as r
 import smtplib
@@ -15,10 +17,6 @@ def otpgen():
     return otp
 
 finalotp=otpgen()
-
-
-
-
 
 class tkinterApp(tk.Tk):
 
@@ -90,8 +88,14 @@ class StartPage(tk.Frame):
         button2.place(x=700,y=400,width=220,height=50)
 
         button3 = ttk.Button(self, text="DOCTORS DETAILS",
-                             command=lambda: controller.show_frame(Sdoctor),style="C.TButton")
+                             command=lambda:changerame(self,controller) ,style="C.TButton")
         button3.place(x=700,y=500,width=220,height=50)
+
+        def changerame(self,controller) :
+            if 9<10:
+             controller.show_frame(Sdoctor)
+
+
 class Adminlogi(tk.Frame):
 
     def __init__(self, parent, controller):
@@ -177,6 +181,7 @@ class Doctorlogin(tk.Frame):
             messagebox.showerror("Error", "Invalid Username or Password")
         else:
             messagebox.showerror("Welome", f"welcome {self.adminid.get()}")
+
 class Pateint(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent, bg="skyblue")
@@ -230,9 +235,11 @@ class Pateint(tk.Frame):
         self.pincodeL = tk.Label(self, text="Pin Code :",font=6,bg="skyblue").place(x=300,y=520)
         self.cityL = tk.Label(self, text="City :",font=6,bg="skyblue").place(x=300,y=580)
 
-        self.submit = ttk.Button(self, text="Next", style="C.TButton",command=lambda:[self.sendmail(),self.dataB(), controller.show_frame(OtpCon)] ).place(x=840, y=630,
-                                                                                                           width=200,
-                                                                                                           height=50)
+
+
+        self.submit = ttk.Button(self, text="Next", style="C.TButton", command=lambda:[self.sendmail(controller),self.dataB()]).place(x=840, y=630,
+                                                                                                                                              width=200,
+                                                                                                                                              height=50)
 
     def dataB(self):
         conn = mysql.connector.connect(
@@ -266,10 +273,9 @@ class Pateint(tk.Frame):
             # Rolling back in case of error
         #conn.rollback()
         conn.close()
-    def sendmail(self):
+
+    def sendmail(self,controller):
         emailid = self.e_mail.get()
-
-
 
         try :
           s = smtplib.SMTP('smtp.gmail.com', 587)
@@ -289,9 +295,11 @@ class Pateint(tk.Frame):
 
           s.sendmail("vishnukantmule@gmail.com", emailid, message,)
           s.quit()
-        except:
-            messagebox.showerror("Error", "YOU ENTER WRONG EMAIL-ID PLEASE TRY TO CORRECT")
+          controller.show_frame(OtpCon)
 
+        except:
+            controller.show_frame(Pateint)
+            messagebox.showerror("Error", "YOU ENTER WRONG EMAIL-ID PLEASE TRY TO CORRECT")
 
 class Admindash(tk.Frame):
     def __init__(self, parent, controller):
@@ -365,19 +373,26 @@ class OtpCon(tk.Frame):
         tk.Button(self,text="⌂",bg='white',command=lambda: controller.show_frame(StartPage)).place(x=10, y=12)
 
         self.VALUE = tk.IntVar()
-        OTP = tk.Entry(self,width=20,font=20, textvariable=self.VALUE).place(x=500,y=200,height=30)
-        self.GENERATE = ttk.Button(self, text="Confirm", style="C.TButton", command=lambda:[self.confirmfn]).place(x=460,y=400,width=300,height=45)
+        self.OTP = tk.Entry(self,width=20,font=20, textvariable=self.VALUE).place(x=500,y=200,height=30)
+        self.GENERATE = ttk.Button(self, text="Confirm", style="C.TButton", command=lambda:self.confirmfn(controller)).place(x=460,y=400,width=300,height=45)
 
 
-    def confirmfn(self,parent, controller):
+    def confirmfn(self,controller):
         otpsended=finalotp
+        int(otpsended)
+        print(otpsended)
+        inotp=self.VALUE.get()
+        int(inotp)
+        print(inotp)
 
-        if self.VALUE.get() ==otpsended:
+        if  otpsended == inotp:
+            controller.show_frame(APPbook)
             messagebox.showerror("Success", "YOUR EMAIL IS CONFIRMED")
-            return lambda : controller.show_frame(APPbook)
+
         else:
+            controller.show_frame(OtpCon)
             messagebox.showerror("Error", "INVALID OTP")
-            return 0
+
 class APPbook(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent, bg="skyblue")
@@ -684,12 +699,12 @@ class muleIINFO(tk.Frame):
         button2.place(x=810, y=620, width=220, height=50)
 
 
-
-
 # Driver Code
 
 app = tkinterApp()
 app.geometry("1150x750")
+app.maxsize(1150,750)
+app.minsize(1150,750)
 app.title("CLINI MANAGMENT SYSTEM")
 app.iconbitmap(r'iconico.ico')
 app.mainloop()
