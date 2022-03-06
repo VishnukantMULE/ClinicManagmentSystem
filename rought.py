@@ -130,16 +130,16 @@ class Adminlogi(tk.Frame):
         self.idname = tk.Entry(self, font=("calibre", 16),borderwidth=1,bg='lightyellow',textvariable=self.adminid).place(x=550,y=350)
         lbl_password = tk.Label(self, text="PASSWORD :", font=("goudy", 15, "bold"),bg='skyblue').place(x=390,y=400)
         self.passwordentry = tk.Entry(self, font=("calibre", 16),borderwidth=1,bg='lightyellow',show = '*',textvariable=self.password).place(x=550,y=400)
-        self.submit = ttk.Button(self, text="LOGIN", style="C.TButton", command=self.check_function).place(x=500, y=480, width=248, height=45)
+        self.submit = ttk.Button(self, text="LOGIN", style="C.TButton", command=lambda:self.check_function(controller)).place(x=500, y=480, width=248, height=45)
 
-    def check_function(self):
+    def check_function(self,controller):
 
         if self.adminid.get()=="" or self.password.get() == "":
             messagebox.showerror("Error", "All fields are required")
         elif self.adminid.get() != "abc" or self.password.get() != "123":
             messagebox.showerror("Error", "Invalid Username or Password")
         else:
-            messagebox.showerror("Welome", f"welcome {self.adminid.get()}")
+            controller.show_frame(Admindash)
 class Doctorlogin(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent, bg="skyblue")
@@ -301,11 +301,36 @@ class Pateint(tk.Frame):
             controller.show_frame(Pateint)
             messagebox.showerror("Error", "YOU ENTER WRONG EMAIL-ID PLEASE TRY TO CORRECT")
 
+
+
+
 class Admindash(tk.Frame):
     def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
-        label = ttk.Label(self, text="ADMIN DASHBORD", font=LARGEFONT)
-        label.grid(row=0, column=4, padx=10, pady=10)
+        style = ttk.Style()
+        style.map("C.TButton",
+                  foreground=[('pressed', 'white'), ('active', 'red')],
+                  background=[('pressed', '!disabled', 'red'), ('active', 'lightgreen')]
+                  )
+        tk.Frame.__init__(self, parent, bg="skyblue")
+        label = tk.Label(self, text="ADMIN DASHBORD", font=40, bg="red", fg="white", borderwidth=5,
+                         padx=550)
+        label.grid(row=0, columnspan=11)
+
+
+        conn = mysql.connector.connect(
+            user='root', password='', host='127.0.0.1', database='clinic_managment_system')
+        my_conn = conn.cursor()
+        my_conn.execute("SELECT * FROM `pateint_details`")
+        i =1
+        j=0
+        for pateint_details in my_conn:
+            for j in range(len(pateint_details)):
+                e = tk.Entry(self, width=25, fg='black',bg='yellow')
+                e.grid(row=i, column=j)
+                e.insert(tk.END, pateint_details[j])
+            i = i + 1
+
+
 class Dotordash(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
