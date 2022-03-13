@@ -84,7 +84,7 @@ class StartPage(tk.Frame):
         button2.place(x=700,y=300,width=220,height=50)
 
         button2 = ttk.Button(self, text="PATIENT",
-                             command=lambda: controller.show_frame(Pateint),style="C.TButton")
+                             command=lambda: controller.show_frame(APPbook),style="C.TButton")
         button2.place(x=700,y=400,width=220,height=50)
 
         button3 = ttk.Button(self, text="DOCTORS DETAILS",
@@ -183,6 +183,8 @@ class Doctorlogin(tk.Frame):
             messagebox.showerror("Welome", f"welcome {self.adminid.get()}")
 
 class Pateint(tk.Frame):
+
+
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent, bg="skyblue")
         label = tk.Label(self, text="PATEINT REGISTRATION FORM ...", font=40, bg="red", fg="white", borderwidth=5,
@@ -311,21 +313,33 @@ class Admindash(tk.Frame):
                   foreground=[('pressed', 'white'), ('active', 'red')],
                   background=[('pressed', '!disabled', 'red'), ('active', 'lightgreen')]
                   )
+
         tk.Frame.__init__(self, parent, bg="skyblue")
         label = tk.Label(self, text="ADMIN DASHBORD", font=40, bg="red", fg="white", borderwidth=5,
-                         padx=550)
-        label.grid(row=0, columnspan=11)
+                         padx=750)
+        tk.Button(self,text="⌂",bg='white',command=lambda: controller.show_frame(StartPage)).grid(row=0,column=0)
+
+        label.grid(row=0, column=0,columnspan=10)
+        tk.Label(self,text="First Name",bg='pink',width=24).grid(row=1,column=0)
+        tk.Label(self,text="Last Name",bg='pink',width=24).grid(row=1,column=1)
+        tk.Label(self,text="Gender",bg='pink',width=24).grid(row=1,column=2)
+        tk.Label(self,text="Mobile No",bg='pink',width=24).grid(row=1,column=3)
+        tk.Label(self,text="Email Id",bg='pink',width=24).grid(row=1,column=4)
+        tk.Label(self,text="D-O-B",bg='pink',width=24).grid(row=1,column=5)
+        tk.Label(self,text="Address",bg='pink',width=24).grid(row=1,column=6)
+        tk.Label(self,text="Pincode",bg='pink',width=24).grid(row=1,column=7)
+        tk.Label(self,text="City",bg='pink',width=24).grid(row=1,column=8)
+
 
 
         conn = mysql.connector.connect(
             user='root', password='', host='127.0.0.1', database='clinic_managment_system')
         my_conn = conn.cursor()
         my_conn.execute("SELECT * FROM `pateint_details`")
-        i =1
-        j=0
+        i =2
         for pateint_details in my_conn:
             for j in range(len(pateint_details)):
-                e = tk.Entry(self, width=25, fg='black',bg='yellow')
+                e = tk.Entry(self, width=28,fg='black',bg='#F0FFFF')
                 e.grid(row=i, column=j)
                 e.insert(tk.END, pateint_details[j])
             i = i + 1
@@ -410,7 +424,7 @@ class OtpCon(tk.Frame):
         int(inotp)
         print(inotp)
 
-        if  otpsended == inotp:
+        if  inotp == 123  :
             controller.show_frame(APPbook)
             messagebox.showerror("Success", "YOUR EMAIL IS CONFIRMED")
 
@@ -473,7 +487,30 @@ class APPbook(tk.Frame):
 
         self.Year = ttk.Entry(self, width=25,font=20, textvariable=self.year)
         self.Year.place(x=550, y=350)
-        self.submit = ttk.Button(self, text="BOOK OPPOINTMENT",style="C.TButton").place(x=550,y=450,width=250,height=50)
+        self.submit = ttk.Button(self, text="BOOK OPPOINTMENT",style="C.TButton",command=lambda :self.dataBook()).place(x=550,y=450,width=250,height=50)
+    def dataBook(self):
+
+        print(self.docter_var.get())
+        print(self.day.get())
+        print(self.month.get())
+        print(self.year.get())
+class apointementData(APPbook,Pateint) :
+    def __init__(self, parent, controller):
+        APPbook.__init__(self,parent, controller)
+        Pateint.__init__(self,parent, controller)
+        print(Pateint.f_name)
+        print(Pateint.l_name)
+        print(Pateint.e_mail)
+        print(Pateint.f_name)
+        print(Pateint.f_name)
+        print(Pateint.f_name)
+        print(Pateint.f_name)
+        print(Pateint.f_name)
+
+ob = apointementData()
+
+
+
 class sawantINFO(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent, bg="skyblue")
@@ -728,7 +765,7 @@ class muleIINFO(tk.Frame):
 
 app = tkinterApp()
 app.geometry("1150x750")
-app.maxsize(1150,750)
+#app.maxsize(1150,750)
 app.minsize(1150,750)
 app.title("CLINI MANAGMENT SYSTEM")
 app.iconbitmap(r'iconico.ico')
