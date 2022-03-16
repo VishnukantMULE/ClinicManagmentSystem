@@ -18,6 +18,7 @@ def otpgen():
 
 finalotp=otpgen()
 
+
 class tkinterApp(tk.Tk):
 
     # __init__ function for class tkinterApp
@@ -37,7 +38,7 @@ class tkinterApp(tk.Tk):
 
         # iterating through a tuple consisting
         # of the different page layouts
-        for F in (StartPage, Adminlogi, Doctorlogin, Pateint, Admindash, Dotordash, Sdoctor, Pateintdetail, OtpCon, APPbook,sawantINFO,patilINFO,karadINFO,muleIINFO):
+        for F in (StartPage, Adminlogi, Doctorlogin, Pateint, Admindash, Dotordash, Sdoctor, Pateintdetail, OtpCon, APPbook,sawantINFO,patilINFO,karadINFO,muleIINFO,FinalAppData,shubhamak,mahesh,anjali,ganesh):
             frame = F(container, self)
 
             # initializing frame of that object from
@@ -70,7 +71,7 @@ class StartPage(tk.Frame):
         img = Image.open('hospital.png')
         self.tkimage = ImageTk.PhotoImage(img)
         tk.Label(self, image=self.tkimage,bg='red').place(x=150, y=180)
-        label = tk.Label(self, text="aninash andhale(led)     prathamesh naik      jemin bhanushali     vishnukant mule", font=30, bg="orange", fg="white", padx=380)
+        label = tk.Label(self, text="avinash andhale(lead)     prathamesh naik      jemin bhanushali     vishnukant mule", font=30, bg="orange", fg="white", padx=380)
         label.place(x=0, y=680)
 
         button1 = ttk.Button(self, text="ADMIN",
@@ -82,9 +83,10 @@ class StartPage(tk.Frame):
                              command=lambda: controller.show_frame(Doctorlogin),style="C.TButton")
 
         button2.place(x=700,y=300,width=220,height=50)
-
+#Pateint
+        #APPbook
         button2 = ttk.Button(self, text="PATIENT",
-                             command=lambda: controller.show_frame(APPbook),style="C.TButton")
+                             command=lambda: controller.show_frame(Pateint),style="C.TButton")
         button2.place(x=700,y=400,width=220,height=50)
 
         button3 = ttk.Button(self, text="DOCTORS DETAILS",
@@ -148,9 +150,9 @@ class Doctorlogin(tk.Frame):
         label.place(x=0, y=5)
         tk.Button(self,text="⌂",bg='white',command=lambda: controller.show_frame(StartPage)).place(x=10, y=12)
 
-        img = Image.open('adminlogo.png')
+        img = Image.open('doctorlogin.png')
         self.tkimage = ImageTk.PhotoImage(img)
-        tk.Label(self, image=self.tkimage).place(x=500, y=90)
+        tk.Label(self, image=self.tkimage,background="red").place(x=500, y=90)
         label = tk.Label(self, text="if you want to become admin please contact devloper",
                          font=40, bg="orange", fg="white", padx=500)
         label.place(x=0, y=680)
@@ -169,28 +171,145 @@ class Doctorlogin(tk.Frame):
         lbl_password = tk.Label(self, text="PASSWORD :", font=("goudy", 15, "bold"), bg='skyblue').place(x=390, y=400)
         self.passwordentry = tk.Entry(self, font=("calibre", 16), borderwidth=1, bg='lightyellow', show='*',
                                       textvariable=self.password).place(x=550, y=400)
-        self.submit = ttk.Button(self, text="LOGIN", style="C.TButton", command=self.check_function).place(x=500, y=480,
+        self.submit = ttk.Button(self, text="LOGIN", style="C.TButton", command=lambda :self.check_function(controller)).place(x=500, y=480,
                                                                                                            width=248,
                                                                                                            height=45)
 
-    def check_function(self):
+    def check_function(self,controller):
 
-        if self.adminid.get() == "" or self.password.get() == "":
-            messagebox.showerror("Error", "All fields are required")
-        elif self.adminid.get() != "abc" or self.password.get() != "123":
-            messagebox.showerror("Error", "Invalid Username or Password")
+        if self.adminid.get() == "shubhamak" or self.password.get() == "shubhamak":
+            controller.show_frame(shubhamak)
+            #messagebox.showerror("WELCOME DR.SHUBHAMAK")
+        elif self.adminid.get() == "mahesh" or self.password.get() == "mahesh":
+            controller.show_frame(mahesh)
+            #messagebox.showerror("WELCOME DR.MAHESH")
+        elif self.adminid.get() == "anjali" or self.password.get() == "anjali":
+            controller.show_frame(anjali)
+            #messagebox.showerror("WELCOME DR.ANJALI MULE")
         else:
-            messagebox.showerror("Welome", f"welcome {self.adminid.get()}")
+            controller.show_frame(ganesh)
+            #messagebox.showerror("WELCOME DR.GANESH KARAD}")
+class shubhamak(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent, bg="skyblue")
+        label = tk.Label(self, text="DR. SHUBHAMAK SAWANT", font=40, bg="red", fg="white", borderwidth=5,
+                         padx=520)
+        label.place(x=0, y=5)
+        tk.Button(self, text="⌂", bg='white', command=lambda: controller.show_frame(StartPage)).grid(row=0, column=0)
 
+        label.grid(row=0, column=0, columnspan=10)
+        tk.Label(self, text="First Name", bg='pink', width=24).grid(row=1, column=0)
+        tk.Label(self, text="Last Name", bg='pink', width=24).grid(row=1, column=1)
+        tk.Label(self, text="Email Id", bg='pink', width=24).grid(row=1, column=4)
+        tk.Label(self, text="Day", bg='pink', width=24).grid(row=1, column=5)
+        tk.Label(self, text="Month", bg='pink', width=24).grid(row=1, column=6)
+        tk.Label(self, text="Year", bg='pink', width=24).grid(row=1, column=7)
+        tk.Label(self, text="Query", bg='pink', width=24).grid(row=1, column=8)
+
+        conn = mysql.connector.connect(
+            user='root', password='', host='127.0.0.1', database='clinic_managment_system')
+        my_conn = conn.cursor()
+        my_conn.execute("SELECT * FROM `dr_anjali_mule`")
+        i = 2
+        for pateint_details in my_conn:
+            for j in range(len(pateint_details)):
+                e = tk.Entry(self, width=28, fg='black', bg='#F0FFFF')
+                e.grid(row=i, column=j)
+                e.insert(tk.END, pateint_details[j])
+            i = i + 1
+class mahesh(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent, bg="skyblue")
+        label = tk.Label(self, text="DR. MAHESH PATIL", font=40, bg="red", fg="white", borderwidth=5,
+                         padx=520)
+        label.place(x=0, y=5)
+        tk.Button(self, text="⌂", bg='white', command=lambda: controller.show_frame(StartPage)).grid(row=0, column=0)
+
+        label.grid(row=0, column=0, columnspan=10)
+        tk.Label(self, text="First Name", bg='pink', width=24).grid(row=1, column=0)
+        tk.Label(self, text="Last Name", bg='pink', width=24).grid(row=1, column=1)
+        tk.Label(self, text="Email Id", bg='pink', width=24).grid(row=1, column=4)
+        tk.Label(self, text="Day", bg='pink', width=24).grid(row=1, column=5)
+        tk.Label(self, text="Month", bg='pink', width=24).grid(row=1, column=6)
+        tk.Label(self, text="Year", bg='pink', width=24).grid(row=1, column=7)
+        tk.Label(self, text="Query", bg='pink', width=24).grid(row=1, column=8)
+
+        conn = mysql.connector.connect(
+            user='root', password='', host='127.0.0.1', database='clinic_managment_system')
+        my_conn = conn.cursor()
+        my_conn.execute("SELECT * FROM `dr_mahesh_karad`")
+        i = 2
+        for pateint_details in my_conn:
+            for j in range(len(pateint_details)):
+                e = tk.Entry(self, width=28, fg='black', bg='#F0FFFF')
+                e.grid(row=i, column=j)
+                e.insert(tk.END, pateint_details[j])
+            i = i + 1
+class anjali(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent, bg="skyblue")
+        label = tk.Label(self, text="DR. ANJALI MULE", font=40, bg="red", fg="white", borderwidth=5,
+                         padx=520)
+        label.place(x=0, y=5)
+        tk.Button(self, text="⌂", bg='white', command=lambda: controller.show_frame(StartPage)).grid(row=0, column=0)
+
+        label.grid(row=0, column=0, columnspan=10)
+        tk.Label(self, text="First Name", bg='pink', width=24).grid(row=1, column=0)
+        tk.Label(self, text="Last Name", bg='pink', width=24).grid(row=1, column=1)
+        tk.Label(self, text="Email Id", bg='pink', width=24).grid(row=1, column=4)
+        tk.Label(self, text="Day", bg='pink', width=24).grid(row=1, column=5)
+        tk.Label(self, text="Month", bg='pink', width=24).grid(row=1, column=6)
+        tk.Label(self, text="Year", bg='pink', width=24).grid(row=1, column=7)
+        tk.Label(self, text="Query", bg='pink', width=24).grid(row=1, column=8)
+
+        conn = mysql.connector.connect(
+            user='root', password='', host='127.0.0.1', database='clinic_managment_system')
+        my_conn = conn.cursor()
+        my_conn.execute("SELECT * FROM `dr_anjali_mule`")
+        i = 2
+        for pateint_details in my_conn:
+            for j in range(len(pateint_details)):
+                e = tk.Entry(self, width=28, fg='black', bg='#F0FFFF')
+                e.grid(row=i, column=j)
+                e.insert(tk.END, pateint_details[j])
+            i = i + 1
+class ganesh(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent, bg="skyblue")
+        label = tk.Label(self, text="DR. GANESH KARAD", font=40, bg="red", fg="white", borderwidth=5,
+                         padx=520)
+        label.place(x=0, y=5)
+        tk.Button(self, text="⌂", bg='white', command=lambda: controller.show_frame(StartPage)).grid(row=0, column=0)
+
+        label.grid(row=0, column=0, columnspan=10)
+        tk.Label(self, text="First Name", bg='pink', width=24).grid(row=1, column=0)
+        tk.Label(self, text="Last Name", bg='pink', width=24).grid(row=1, column=1)
+        tk.Label(self, text="Email Id", bg='pink', width=24).grid(row=1, column=4)
+        tk.Label(self, text="Day", bg='pink', width=24).grid(row=1, column=5)
+        tk.Label(self, text="Month", bg='pink', width=24).grid(row=1, column=6)
+        tk.Label(self, text="Year", bg='pink', width=24).grid(row=1, column=7)
+        tk.Label(self, text="Query", bg='pink', width=24).grid(row=1, column=8)
+
+        conn = mysql.connector.connect(
+            user='root', password='', host='127.0.0.1', database='clinic_managment_system')
+        my_conn = conn.cursor()
+        my_conn.execute("SELECT * FROM `dr_ganesh_karad`")
+        i = 2
+        for pateint_details in my_conn:
+            for j in range(len(pateint_details)):
+                e = tk.Entry(self, width=28, fg='black', bg='#F0FFFF')
+                e.grid(row=i, column=j)
+                e.insert(tk.END, pateint_details[j])
+            i = i + 1
 class Pateint(tk.Frame):
-
-
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent, bg="skyblue")
         label = tk.Label(self, text="PATEINT REGISTRATION FORM ...", font=40, bg="red", fg="white", borderwidth=5,
                          padx=470)
         label.place(x=0, y=5)
         tk.Button(self,text="⌂",bg='white',command=lambda: controller.show_frame(StartPage)).place(x=10, y=12)
+        self.finaldatais = FinalAppData
+
 
 
 
@@ -239,7 +358,7 @@ class Pateint(tk.Frame):
 
 
 
-        self.submit = ttk.Button(self, text="Next", style="C.TButton", command=lambda:[self.sendmail(controller),self.dataB()]).place(x=840, y=630,
+        self.submit = ttk.Button(self, text="Next", style="C.TButton", command=lambda:[self.finaldatais.DataPis(self),self.sendmail(controller),self.dataB()]).place(x=840, y=630,
                                                                                                                                               width=200,
                                                                                                                                               height=50)
 
@@ -276,6 +395,7 @@ class Pateint(tk.Frame):
         #conn.rollback()
         conn.close()
 
+
     def sendmail(self,controller):
         emailid = self.e_mail.get()
 
@@ -302,10 +422,6 @@ class Pateint(tk.Frame):
         except:
             controller.show_frame(Pateint)
             messagebox.showerror("Error", "YOU ENTER WRONG EMAIL-ID PLEASE TRY TO CORRECT")
-
-
-
-
 class Admindash(tk.Frame):
     def __init__(self, parent, controller):
         style = ttk.Style()
@@ -343,8 +459,6 @@ class Admindash(tk.Frame):
                 e.grid(row=i, column=j)
                 e.insert(tk.END, pateint_details[j])
             i = i + 1
-
-
 class Dotordash(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -406,7 +520,7 @@ class OtpCon(tk.Frame):
                   foreground=[('pressed', 'red'), ('active', 'red')],
                   background=[('pressed', '!disabled', 'red'), ('active', 'lightgreen')]
                   )
-        label = tk.Label(self, text="EMAI-ID CONFIRMATION ...", font=40, bg="red", fg="white", borderwidth=5,
+        label = tk.Label(self, text="OTP CONFIRMATION ...", font=40, bg="red", fg="white", borderwidth=5,
                          padx=470)
         label.place(x=0, y=5)
         tk.Button(self,text="⌂",bg='white',command=lambda: controller.show_frame(StartPage)).place(x=10, y=12)
@@ -417,32 +531,31 @@ class OtpCon(tk.Frame):
 
 
     def confirmfn(self,controller):
-        otpsended=finalotp
-        int(otpsended)
+        otpsended=int(finalotp)
+        #int(otpsended)
         print(otpsended)
-        inotp=self.VALUE.get()
-        int(inotp)
+        inotp=int(self.VALUE.get())
+        #int(inotp)
         print(inotp)
 
-        if  inotp == 123  :
+        if inotp == otpsended:
             controller.show_frame(APPbook)
             messagebox.showerror("Success", "YOUR EMAIL IS CONFIRMED")
-
         else:
             controller.show_frame(OtpCon)
             messagebox.showerror("Error", "INVALID OTP")
-
 class APPbook(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent, bg="skyblue")
+        self.finalAppData = FinalAppData
         style = ttk.Style()
         style.map("C.TButton",
                   foreground=[('pressed', 'red'), ('active', 'red')],
                   background=[('pressed', '!disabled', 'red'), ('active', 'lightgreen')]
 
                   )
-        self.label = tk.Label(self, text="EMAI-ID CONFIRMATION ...", font=40, bg="red", fg="white", borderwidth=5,
-                         padx=470)
+        self.label = tk.Label(self, text="Book Appointment ...", font=40, bg="red", fg="white", borderwidth=5,
+                         padx=570)
         tk.Button(self,text="⌂",bg='white',command=lambda: controller.show_frame(StartPage)).place(x=10, y=12)
 
         self.label.place(x=0, y=5)
@@ -487,30 +600,44 @@ class APPbook(tk.Frame):
 
         self.Year = ttk.Entry(self, width=25,font=20, textvariable=self.year)
         self.Year.place(x=550, y=350)
-        self.submit = ttk.Button(self, text="BOOK OPPOINTMENT",style="C.TButton",command=lambda :self.dataBook()).place(x=550,y=450,width=250,height=50)
+        self.submit = ttk.Button(self, text="BOOK OPPOINTMENT",style="C.TButton",command=lambda:[self.finalAppData.Datais(self),self.finalAppData.TotalData(self),self.dataBook()]).place(x=550,y=450,width=250,height=50)
     def dataBook(self):
+        DoctorName = self.docter_var.get()
+        AppDate = self.day.get()
+        AppMonth = self.month.get()
+        AppYear = self.year.get()
+class FinalAppData(APPbook,Pateint):
+    def __init__(self, parent, controller):
+        Pateint.__init__(self, parent, controller)
+        APPbook.__init__(self, parent, controller)
+        #Pateint.dataB(self)
+        #print(self.email)
 
-        print(self.docter_var.get())
+    def DataPis(self):
+        print(self.f_name.get())
+        print(self.l_name.get())
+        print(self.e_mail.get())
+
+        self.a=self.f_name.get()
+        self.b=self.l_name.get()
+        self.c=self.e_mail.get()
+    def Datais(self):
+        self.d=(self.docter_var.get())
         print(self.day.get())
         print(self.month.get())
         print(self.year.get())
-class apointementData(APPbook,Pateint) :
-    def __init__(self, parent, controller):
-        APPbook.__init__(self,parent, controller)
-        Pateint.__init__(self,parent, controller)
-        print(Pateint.f_name)
-        print(Pateint.l_name)
-        print(Pateint.e_mail)
-        print(Pateint.f_name)
-        print(Pateint.f_name)
-        print(Pateint.f_name)
-        print(Pateint.f_name)
-        print(Pateint.f_name)
 
-ob = apointementData()
-
-
-
+    def TotalData(self):
+        if self.docter_var.get() == "Dr.SHUBHAMAK SAWANT":
+            print(self.docter_var.get())
+           # print(self.a)
+          #  print(self.d)
+        elif self.docter_var.get() == "Dr.MAHESH PATIL":
+            print(self.docter_var.get())
+        elif self.docter_var.get() == "Dr.GANESH KARAD":
+            print(self.docter_var.get())
+        else:
+            print(self.docter_var.get())
 class sawantINFO(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent, bg="skyblue")
@@ -580,8 +707,6 @@ class sawantINFO(tk.Frame):
         button2 = ttk.Button(self, text="REQUEST AN APPOINTMENT",
                              command=lambda: controller.show_frame(Pateint), style="C.TButton")
         button2.place(x=810, y=620, width=220, height=50)
-
-
 class patilINFO(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent, bg="skyblue")
@@ -641,8 +766,6 @@ class patilINFO(tk.Frame):
         button2 = ttk.Button(self, text="REQUEST AN APPOINTMENT",
                              command=lambda: controller.show_frame(Pateint), style="C.TButton")
         button2.place(x=810, y=620, width=220, height=50)
-
-
 class karadINFO(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent, bg="skyblue")
@@ -700,8 +823,6 @@ class karadINFO(tk.Frame):
         button2 = ttk.Button(self, text="REQUEST AN APPOINTMENT",
                              command=lambda: controller.show_frame(Pateint), style="C.TButton")
         button2.place(x=810, y=620, width=220, height=50)
-
-
 class muleIINFO(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent, bg="skyblue")
