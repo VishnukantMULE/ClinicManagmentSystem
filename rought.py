@@ -9,7 +9,7 @@ import smtplib
 import mysql.connector
 
 LARGEFONT = ("Verdana", 15)
-
+userid=1
 def otpgen():
     otp=""
     for i in range(4):
@@ -37,7 +37,7 @@ class tkinterApp(tk.Tk):
 
         # iterating through a tuple consisting
         # of the different page layouts
-        for F in (StartPage, Adminlogi, Doctorlogin, Pateint, Admindash, Dotordash, Sdoctor, Pateintdetail, OtpCon, APPbook,sawantINFO,patilINFO,karadINFO,muleIINFO,FinalAppData,shubhamak,mahesh,anjali,ganesh):
+        for F in (StartPage, Adminlogi, Doctorlogin, Pateint, Admindash, Dotordash, Sdoctor, Pateintdetail, OtpCon, APPbook,sawantINFO,patilINFO,karadINFO,muleIINFO,shubhamak,mahesh,anjali,ganesh):
             frame = F(container, self)
 
             # initializing frame of that object from
@@ -234,7 +234,7 @@ class mahesh(tk.Frame):
         conn = mysql.connector.connect(
             user='root', password='', host='127.0.0.1', database='clinic_managment_system')
         my_conn = conn.cursor()
-        my_conn.execute("SELECT * FROM `dr_mahesh_karad`")
+        my_conn.execute("SELECT * FROM `dr_mahesh_patil`")
         i = 2
         for pateint_details in my_conn:
             for j in range(len(pateint_details)):
@@ -299,13 +299,28 @@ class ganesh(tk.Frame):
                 e.insert(tk.END, pateint_details[j])
             i = i + 1
 class Pateint(tk.Frame):
+
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent, bg="skyblue")
         label = tk.Label(self, text="PATEINT REGISTRATION FORM ...", font=40, bg="red", fg="white", borderwidth=5,
                          padx=470)
         label.place(x=0, y=5)
         tk.Button(self,text="⌂",bg='white',command=lambda: controller.show_frame(StartPage)).place(x=10, y=12)
-        self.finaldatais = FinalAppData
+        connection = mysql.connector.connect(user='root', password='', host='127.0.0.1',
+                                             database='clinic_managment_system')
+        cursor = connection.cursor()
+        sql_select_query = """select * from current_user_data"""
+        cursor.execute(sql_select_query)
+        record = cursor.fetchone()
+        sql_Delete_query = """Delete from current_user_data"""
+        cursor.execute(sql_Delete_query)
+        connection.commit()
+        cursor.execute(sql_select_query)
+        records = cursor.fetchall()
+        if len(records) == 0:
+            cursor.close()
+            connection.close()
+        # self.finaldatais = FinalAppData
 
 
 
@@ -355,11 +370,43 @@ class Pateint(tk.Frame):
 
 
 
-        self.submit = ttk.Button(self, text="Next", style="C.TButton", command=lambda:[self.finaldatais.DataPis(self),self.sendmail(controller),self.dataB()]).place(x=840, y=630,
-                                                                                                                                              width=200,
-                                                                                                                                              height=50)
+        # self.submit = ttk.Button(self, text="Next", style="C.TButton", command=lambda:[self.finaldatais.DataPis(self),self.sendmail(controller),self.dataB()]).place(x=840, y=630,
+        #                                                                                                                                       width=200,
+        #                                                                                                                                       height=50)
+        self.submit = ttk.Button(self, text="Next", style="C.TButton", command=lambda: [ self.sendmail(controller), self.currentdata(), self.dataB()]).place(x=840, y=630, width=200, height=50)
 
+    def currentdata(self):
+        username = self.f_name.get()
+        userlname = self.l_name.get()
+        usergender = self.var.get()
+        useremailid = self.e_mail.get()
+        userdob = self.DOB.get()
+        usermob = self.m_no.get()
+
+
+
+
+
+        conn = mysql.connector.connect(
+            user='root', password='', host='127.0.0.1', database='clinic_managment_system')
+        insert_stmt = (
+            "INSERT INTO current_user_data(id, username,usersurname,gender,useremail,userdbo,usermob)"
+            "VALUES (%s, %s, %s, %s, %s ,%s ,%s )"
+        )
+        data = (userid, username, userlname, usergender, useremailid, userdob, usermob)
+        cursor = conn.cursor()
+
+        # Executing the SQL command
+        cursor.execute(insert_stmt, data)
+
+        # Commit your changes in the database
+        conn.commit()
+
+        # Rolling back in case of error
+        # conn.rollback()
+        conn.close()
     def dataB(self):
+
         conn = mysql.connector.connect(
             user='root', password='', host='127.0.0.1', database='clinic_managment_system')
 
@@ -391,8 +438,6 @@ class Pateint(tk.Frame):
             # Rolling back in case of error
         #conn.rollback()
         conn.close()
-
-
     def sendmail(self,controller):
         emailid = self.e_mail.get()
 
@@ -544,7 +589,7 @@ class OtpCon(tk.Frame):
 class APPbook(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent, bg="skyblue")
-        self.finalAppData = FinalAppData
+        # self.finalAppData = FinalAppData
         style = ttk.Style()
         style.map("C.TButton",
                   foreground=[('pressed', 'red'), ('active', 'red')],
@@ -580,7 +625,7 @@ class APPbook(tk.Frame):
         self.year = tk.StringVar()
 
         self.Docter_box = ttk.Combobox(self, width=25,font=20, textvariable=self.docter_var, state='readonly')
-        self.Docter_box['values'] = ('Dr.SHUBHAMAK SAWANT', 'Dr.MAHESH PATIL', 'Dr.GANESH KARAD', 'Dr.VIJITA SHARMA')
+        self.Docter_box['values'] = ('Dr.SHUBHAMAK SAWANT', 'Dr.MAHESH PATIL', 'Dr.GANESH KARAD', 'Dr.ANJALI MULE')
         self.Docter_box.current(0)
         self.Docter_box.place(x=550, y=200)
 
@@ -597,62 +642,103 @@ class APPbook(tk.Frame):
 
         self.Year = ttk.Entry(self, width=25,font=20, textvariable=self.year)
         self.Year.place(x=550, y=350)
-        self.submit = ttk.Button(self, text="BOOK OPPOINTMENT",style="C.TButton",command=lambda:[self.finalAppData.Datais(self),self.finalAppData.TotalData(self),self.dataBook(),lastFrame]).place(x=550,y=450,width=250,height=50)
+        # self.submit = ttk.Button(self, text="BOOK OPPOINTMENT",style="C.TButton",command=lambda:[self.finalAppData.Datais(self),self.finalAppData.TotalData(self),self.dataBook()]).place(x=550,y=450,width=250,height=50)
+        self.submit = ttk.Button(self, text="BOOK OPPOINTMENT",style="C.TButton",command=lambda:self.dataBook()).place(x=550,y=450,width=250,height=50)
+
     def dataBook(self):
+        global usersurnameget, usernameget, usergenderget, userdobget, useremailget, usermobget
         DoctorName = self.docter_var.get()
         AppDate = self.day.get()
         AppMonth = self.month.get()
         AppYear = self.year.get()
-class FinalAppData(APPbook,Pateint):
-    def __init__(self, parent, controller):
-        Pateint.__init__(self, parent, controller)
-        APPbook.__init__(self, parent, controller)
+        try:
+            connection = mysql.connector.connect(user='root', password='', host='127.0.0.1',
+                                                 database='clinic_managment_system')
 
+            sql_select_Query = "select * from current_user_data"
+            cursor = connection.cursor()
+            cursor.execute(sql_select_Query)
+            # get all records
+            records = cursor.fetchall()
+            for row in records:
+                useridget=row[0]
+                usernameget=row[1]
+                usersurnameget=row[2]
+                usergenderget=row[3]
+                useremailget=row[4]
+                userdobget=row[5]
+                usermobget=row[6]
 
-    #Pateint.dataB(self)
-        #print(self.email)
-
-    def DataPis(self):
-       # print(self.f_name.get())
-       # print(self.l_name.get())
-       # print(self.e_mail.get())
-
-        self.a=self.f_name.get()
-        self.b=self.l_name.get()
-        self.c=self.e_mail.get()
-
-    def Datais(self):
-        self.d=(self.docter_var.get())
-        #print(self.day.get())
-        #print(self.month.get())
-        #print(self.year.get())
-
-    def TotalData(self):
-        if self.docter_var.get() == "Dr.SHUBHAMAK SAWANT":
-           print(self.docter_var.get())
-           # print(self.a)
-           # print(self.b)
-           # print(self.c)
+            connection.close()
+            cursor.close()
+        except mysql.connector.Error as e:
+            messagebox.showwarning("warning", "SORRY FOR INCONVINEINT SERVICE")
+        if DoctorName == "Dr.SHUBHAMAK SAWANT":
+            conn = mysql.connector.connect(
+                user='root', password='', host='127.0.0.1', database='clinic_managment_system')
+            insert_stmt = (
+                "INSERT INTO dr_shubhamak_sawant(First_Name,Last_Name,Gender,DOB,Email,Mob_No,Day,Month,Year)"
+                "VALUES (%s, %s, %s, %s, %s ,%s ,%s,%s ,%s )"
+            )
+            data = (usernameget, usersurnameget, usergenderget, userdobget, useremailget, usermobget, AppDate,AppMonth,AppYear)
+            cursor = conn.cursor()
+            cursor.execute(insert_stmt, data)
+            conn.commit()
+            conn.close()
         elif self.docter_var.get() == "Dr.MAHESH PATIL":
-           print(self.docter_var.get())
-           # print(self.a)
-           # print(self.b)
-           # print(self.c)
-
+            conn = mysql.connector.connect(
+                user='root', password='', host='127.0.0.1', database='clinic_managment_system')
+            insert_stmt = (
+                "INSERT INTO dr_mahesh_patil(First_Name,Last_Name,Gender,DOB,Email,Mob_No,Day,Month,Year)"
+                "VALUES (%s, %s, %s, %s, %s ,%s ,%s,%s ,%s )"
+            )
+            data = (usernameget, usersurnameget, usergenderget, userdobget, useremailget, usermobget, AppDate, AppMonth, AppYear)
+            cursor = conn.cursor()
+            cursor.execute(insert_stmt, data)
+            conn.commit()
+            conn.close()
         elif self.docter_var.get() == "Dr.GANESH KARAD":
-           print(self.docter_var.get())
-            #print(self.a)
-          #  print(self.b)
-           # print(self.c)
+            conn = mysql.connector.connect(
+                user='root', password='', host='127.0.0.1', database='clinic_managment_system')
+            insert_stmt = (
+                "INSERT INTO dr_ganesh_karad(First_Name,Last_Name,Gender,DOB,Email,Mob_No,Day,Month,Year)"
+                "VALUES (%s, %s, %s, %s, %s ,%s ,%s,%s ,%s )"
+            )
+            data = (usernameget, usersurnameget, usergenderget, userdobget, useremailget, usermobget, AppDate, AppMonth,AppYear)
+            cursor = conn.cursor()
+            cursor.execute(insert_stmt, data)
+            conn.commit()
+            conn.close()
         else:
-            print(self.docter_var.get())
-           # print(self.a)
-          #  print(self.b)
-           # print(self.c)
+            conn = mysql.connector.connect(
+                user='root', password='', host='127.0.0.1', database='clinic_managment_system')
+            insert_stmt = (
+                "INSERT INTO dr_anjali_mule(First_Name,Last_Name,Gender,DOB,Email,Mob_No,Day,Month,Year)"
+                "VALUES (%s, %s, %s, %s, %s ,%s ,%s,%s ,%s )"
+            )
+            data = (usernameget, usersurnameget, usergenderget, userdobget, useremailget, usermobget, AppDate, AppMonth,AppYear)
+            cursor = conn.cursor()
+            cursor.execute(insert_stmt, data)
+            conn.commit()
+            conn.close()
 
-class lastFrame(FinalAppData):
-    def __init__(self):
-        print(self.a)
+        s = smtplib.SMTP('smtp.gmail.com', 587)
+        s.starttls()
+        s.login("vishnukantmule@gmail.com", "cgezqyarhsxghdfy")
+        SUBJECT = "Verify your Email address"
+        TEXT = f"""TO book your appointment with doctor ,we just need to make sure that this email address is yours.
+
+             To verify your email address,use this security code:{finalotp}
+
+             if you didnt request this code. you can safely ignore this email.Someone else might have typed youremail address by mistake.
+
+             Thanks,
+             The Clinic Managment Team"""
+
+        message = 'Subject: {}\n\n{}'.format(SUBJECT, TEXT)
+
+        s.sendmail("vishnukantmule@gmail.com", useremailget, message, )
+        s.quit()
 
 
 
@@ -899,12 +985,13 @@ class muleIINFO(tk.Frame):
                              command=lambda: controller.show_frame(Pateint), style="C.TButton")
         button2.place(x=810, y=620, width=220, height=50)
 
+if __name__ == "__main__":
 
 # Driver Code
-app = tkinterApp()
-app.geometry("1150x750")
+    app = tkinterApp()
+    app.geometry("1150x750")
 #app.maxsize(1150,750)
-app.minsize(1150,750)
-app.title("CLINI MANAGMENT SYSTEM")
-app.iconbitmap(r'iconico.ico')
-app.mainloop()
+    app.minsize(1150,750)
+    app.title("CLINI MANAGMENT SYSTEM")
+    app.iconbitmap(r'iconico.ico')
+    app.mainloop()
