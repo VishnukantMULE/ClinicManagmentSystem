@@ -6,6 +6,9 @@ from tkinter import messagebox
 from PIL import Image, ImageTk
 import random as r
 import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
 import mysql.connector
 
 LARGEFONT = ("Verdana", 15)
@@ -320,14 +323,6 @@ class Pateint(tk.Frame):
         if len(records) == 0:
             cursor.close()
             connection.close()
-        # self.finaldatais = FinalAppData
-
-
-
-
-
-        # creating the frames in the master
-
         self.f_name = tk.StringVar()
         self.l_name = tk.StringVar()
         self.e_mail = tk.StringVar()
@@ -368,11 +363,6 @@ class Pateint(tk.Frame):
         self.pincodeL = tk.Label(self, text="Pin Code :",font=6,bg="skyblue").place(x=300,y=520)
         self.cityL = tk.Label(self, text="City :",font=6,bg="skyblue").place(x=300,y=580)
 
-
-
-        # self.submit = ttk.Button(self, text="Next", style="C.TButton", command=lambda:[self.finaldatais.DataPis(self),self.sendmail(controller),self.dataB()]).place(x=840, y=630,
-        #                                                                                                                                       width=200,
-        #                                                                                                                                       height=50)
         self.submit = ttk.Button(self, text="Next", style="C.TButton", command=lambda: [ self.sendmail(controller), self.currentdata(), self.dataB()]).place(x=840, y=630, width=200, height=50)
 
     def currentdata(self):
@@ -383,27 +373,16 @@ class Pateint(tk.Frame):
         userdob = self.DOB.get()
         usermob = self.m_no.get()
 
-
-
-
-
         conn = mysql.connector.connect(
             user='root', password='', host='127.0.0.1', database='clinic_managment_system')
         insert_stmt = (
-            "INSERT INTO current_user_data(id, username,usersurname,gender,useremail,userdbo,usermob)"
+            "INSERT INTO current_user_data(id, username, usersurname, gender, useremail, userdbo, usermob)"
             "VALUES (%s, %s, %s, %s, %s ,%s ,%s )"
         )
         data = (userid, username, userlname, usergender, useremailid, userdob, usermob)
         cursor = conn.cursor()
-
-        # Executing the SQL command
         cursor.execute(insert_stmt, data)
-
-        # Commit your changes in the database
         conn.commit()
-
-        # Rolling back in case of error
-        # conn.rollback()
         conn.close()
     def dataB(self):
 
@@ -421,22 +400,13 @@ class Pateint(tk.Frame):
         state = self.state.get()
 
         insert_stmt = (
-            "INSERT INTO pateint_details(First_Name, Last_Name,Gender,Mobile,Email,D_O_B,Address,Pincode,State)"
+            "INSERT INTO pateint_details( First_Name,Last_Name, Gender, Mobile, Email, D_O_B, Address, Pincode, State)"
             "VALUES (%s, %s, %s, %s, %s ,%s ,%s ,%s ,%s)"
         )
         data = (fname, lname, gender, mob, emailid, dob, address, pincode, state)
         cursor = conn.cursor()
-
-            # Executing the SQL command
         cursor.execute(insert_stmt, data)
-
-
-            # Commit your changes in the database
         conn.commit()
-
-
-            # Rolling back in case of error
-        #conn.rollback()
         conn.close()
     def sendmail(self,controller):
         emailid = self.e_mail.get()
@@ -722,24 +692,63 @@ class APPbook(tk.Frame):
             conn.commit()
             conn.close()
 
-        s = smtplib.SMTP('smtp.gmail.com', 587)
-        s.starttls()
-        s.login("vishnukantmule@gmail.com", "cgezqyarhsxghdfy")
-        SUBJECT = "Verify your Email address"
-        TEXT = f"""TO book your appointment with doctor ,we just need to make sure that this email address is yours.
+        me = "vishnukantmule@gmail.com"
+        you = useremailget
+        msg = MIMEMultipart('alternative')
+        msg['Subject'] = "Link"
+        msg['From'] = me
+        msg['To'] = you
 
-             To verify your email address,use this security code:{finalotp}
-
-             if you didnt request this code. you can safely ignore this email.Someone else might have typed youremail address by mistake.
-
-             Thanks,
-             The Clinic Managment Team"""
-
-        message = 'Subject: {}\n\n{}'.format(SUBJECT, TEXT)
-
-        s.sendmail("vishnukantmule@gmail.com", useremailget, message, )
-        s.quit()
-
+        # Create the body of the message (a plain-text and an HTML version).
+        text = "Hi!\nHow are you?\nHere is the link you wanted:\nhttp://www.python.org"
+        html = f"""\
+        <html>
+          <head></head>
+          <body bgcolor="#00FFFF">
+            <h1 style="color: orange;">CLINIC MANAGMENT SYSTEM</h1>
+            <hr color="red">
+            <hr color="green">
+            <img src="https://picsum.photos/1250/400?women" alt="error for load">
+            <hr>
+            <h2> Dear {usernameget}</h2>
+            <p><h3>your appointment has been booked :</h3>
+            <br>
+            <br>
+               <h3>NAME : {usernameget}&nbsp;{usersurnameget}</h3>
+               <h3>MOBILE NO:{usermobget}</h3>
+               <h3>DOCTOR :{DoctorName}</h3>
+               <h3>DAY :{AppDate}</h3>
+               <h3>MONTH :{AppMonth}</h3>
+               <h3>YEAR :{AppYear}</h3>
+            </p>
+            <br>
+            <br>
+            <br>
+            <hr>
+            <p>
+            <div>
+                 <h3> PLEASE REMEMBER TO BRING :</h3>
+                 <ul>
+                  <li>Current List of All Medications You Are Taking.</li>
+                  <li>Medical History.</li>
+                  <li>A Family Member or Friend.</li>
+                  </ul>
+            </div>    
+            </p>
+            
+          </body>
+        </html>
+        """
+        part1 = MIMEText(text, 'plain')
+        part2 = MIMEText(html, 'html')
+        msg.attach(part1)
+        msg.attach(part2)
+        mail = smtplib.SMTP('smtp.gmail.com', 587)
+        mail.ehlo()
+        mail.starttls()
+        mail.login('vishnukantmule@gmail.com', 'cgezqyarhsxghdfy')
+        mail.sendmail(me, you, msg.as_string())
+        mail.quit()
 
 
 class sawantINFO(tk.Frame):
