@@ -26,8 +26,9 @@ jobs:
         pip install flake8 pytest
         pip install pillow
         pip install tk
-        pip install smtplib
-        pip install mysql
+        pip install secure-smtplib   
+        pip install python-sql
+        pip install image
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint with flake8
       run: |
