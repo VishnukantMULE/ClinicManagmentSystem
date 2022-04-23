@@ -3,12 +3,12 @@
 
 # E-Clinic Managment
 
-• CLINIC MANAGEMENT SYSTEM is a project which aims is 
+<br>• CLINIC MANAGEMENT SYSTEM is a project which aims is 
 developing a computerized system to maintain all information 
 of the Clinic Entities.
-• It has a facility of Admin Login through which the Admin can 
+<br/>• It has a facility of Admin Login through which the Admin can 
 monitor the whole system.
-• Admin Modules are managing patients, manage Doctor’s, and 
+<br/>• Admin Modules are managing patients, manage Doctor’s, and 
 manage Appointments
 • Patient Modules are to fill the registration form, Add details, 
 find Doctor’s and applied for appointment, view appointment, 
