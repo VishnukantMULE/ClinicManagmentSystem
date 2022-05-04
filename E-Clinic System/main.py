@@ -38,8 +38,8 @@ class tkinterApp(tk.Tk):
         self.frames = {}
 
         for F in (
-        StartPage, Adminlogi, Doctorlogin, Pateint, Admindash, Dotordash, Sdoctor, Pateintdetail, OtpCon, APPbook,
-        sawantINFO, patilINFO, karadINFO, muleIINFO, shubhamak, mahesh, anjali, ganesh):
+        StartPage, Adminlogi, Doctorlogin, Pateint, Admindash, Dotordash, Sdoctor, Pateintdetail, OtpCon, APPbook,clicinfo,callclinic,
+        sawantINFO, patilINFO, karadINFO, muleIINFO, shubhamak, mahesh, anjali, ganesh,devloper):
             frame = F(container, self)
 
             self.frames[F] = frame
@@ -57,42 +57,93 @@ class StartPage(tk.Frame):
     def __init__(self, parent, controller):
         style = ttk.Style()
         style.map("C.TButton",
-                  foreground=[('pressed', 'yellow'), ('active', 'white')],
-                  background=[('pressed', '!disabled', 'green'), ('active', 'lightgreen')]
+                  foreground=[('pressed', 'yellow'), ('active', 'red')],
+                  background=[('pressed', '!disabled', '#00FF00'), ('active', '#00FF7F')]
+
                   )
-        tk.Frame.__init__(self, parent, bg="skyblue")
+        tk.Frame.__init__(self, parent, bg="green")
 
-        label = tk.Label(self, text="WELCOME TO CLINIC MANAGMENT SYSTEM", font=40, bg="red", fg="white", borderwidth=15,
-                         padx=450)
-        label.place(x=0, y=5)
-        img = Image.open('hospital.png')
+        labelw = tk.Label(self, text="WELCOME TO CLINIC MANAGMENT SYSTEM", font=40, bg="#B22222", fg="white", borderwidth=15,
+                         padx=400)
+        labelw.place(x=0, y=5)
+        img = Image.open('dddd.png')
         self.tkimage = ImageTk.PhotoImage(img)
-        tk.Label(self, image=self.tkimage, bg='skyblue').place(x=150, y=180)
+        tk.Label(self, image=self.tkimage, bg='skyblue').place(x=0, y=59)
         label = tk.Label(self,
-                         text="avinash andhale(lead)     prathamesh naik      jemin bhanushali     vishnukant mule",
-                         font=30, bg="orange", fg="white", padx=380)
+                         text="We know you. We care for you. We’re with you.",
+                         font=30, bg="#FF7F50", fg="white", padx=420)
         label.place(x=0, y=680)
+        imgd = Image.open('doctorrpng.png')
+        self.tkimaged = ImageTk.PhotoImage(imgd)
+        imgp = Image.open('pateintpngg.png')
+        self.tkimagep = ImageTk.PhotoImage(imgp)
+        imga = Image.open('adminnpng.png')
+        self.tkimagea = ImageTk.PhotoImage(imga)
+        imgddd = Image.open('doctordetailspng.png')
+        self.tkimageddd = ImageTk.PhotoImage(imgddd)
+        imgin = Image.open('info.png')
+        self.tkimagein = ImageTk.PhotoImage(imgin)
 
-        button1 = ttk.Button(self, text="ADMIN",
+        button1 = tk.Button(self, bg='#B22222', image=self.tkimagein,command=lambda: controller.show_frame(OtpCon)
+                             )
+
+        button1.place(x=83, y=15)
+        imgicall = Image.open('call.png')
+        self.tkimagecall = ImageTk.PhotoImage(imgicall)
+
+        buttoncall = tk.Button(self, bg='#B22222', image=self.tkimagecall,command=lambda: controller.show_frame(callclinic)
+                            )
+
+        buttoncall.place(x=50, y=15)
+
+        imgidev = Image.open('devloper.png')
+        self.tkimagedev = ImageTk.PhotoImage(imgidev)
+
+        buttondev = tk.Button(self, bg='#B22222', image=self.tkimagedev,command=lambda: controller.show_frame(devloper)
+                               )
+
+        buttondev.place(x=17, y=15)
+
+
+        button1 = ttk.Button(self, text="ADMIN",image=self.tkimagea,
                              command=lambda: controller.show_frame(Adminlogi), style="C.TButton")
 
-        button1.place(x=700, y=200, width=220, height=50)
+        button1.place(x=830, y=140, width=190, height=90)
 
-        button2 = ttk.Button(self, text="DOCTOR", command=lambda: controller.show_frame(Doctorlogin), style="C.TButton")
+        button2 = ttk.Button(self, text="DOCTOR", image=self.tkimaged,command=lambda: controller.show_frame(Doctorlogin), style="C.TButton")
 
-        button2.place(x=700, y=300, width=220, height=50)
+        button2.place(x=830, y=270, width=190, height=90)
 
-        button2 = ttk.Button(self, text="PATIENT",
+        button2 = ttk.Button(self, text="PATIENT",image=self.tkimagep,
                              command=lambda: controller.show_frame(Pateint), style="C.TButton")
-        button2.place(x=700, y=400, width=220, height=50)
+        button2.place(x=830, y=400, width=190, height=90)
 
-        button3 = ttk.Button(self, text="DOCTORS DETAILS",
+        button3 = ttk.Button(self, text="DOCTORS DETAILS",image=self.tkimageddd,
                              command=lambda: changerame(self, controller), style="C.TButton")
-        button3.place(x=700, y=500, width=220, height=50)
+        button3.place(x=830, y=530, width=190, height=90)
 
         def changerame(self, controller):
             if 9 < 10:
                 controller.show_frame(Sdoctor)
+
+class devloper(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent, bg="#FFA07A")
+        label = tk.Label(self, text="DEVLOPER DETAILS", font=40, bg="#B22222", fg="white", borderwidth=5,
+                         padx=550)
+        label.place(x=0, y=5)
+        img = Image.open('devlopers.png')
+        self.tkimage = ImageTk.PhotoImage(img)
+        tk.Label(self, image=self.tkimage, bg='#FFA07A').place(x=0, y=40)
+        imgin = Image.open('homepngbutton.png')
+        self.tkimagein = ImageTk.PhotoImage(imgin)
+        tk.Button(self, image=self.tkimagein, bg='#ff9999', command=lambda: controller.show_frame(StartPage)).place(x=15, y=7)
+        tk.Label(self,text="VISHNUKANT MULE",font=30,bg="#ffebcc").place(x=750,y=225)
+        tk.Label(self,text="AVINASH ANDHALE",font=30,bg="#ffe0b3").place(x=750,y=260)
+        tk.Label(self,text="PRATHAMESH NAIK",font=30,bg="#ffe0b3").place(x=750,y=295)
+        tk.Label(self,text="JEMIN BHANUSHALI",font=30,bg="#ffe0b3").place(x=750,y=330)
+
 
 
 class Adminlogi(tk.Frame):
@@ -104,9 +155,9 @@ class Adminlogi(tk.Frame):
         label.place(x=0, y=5)
         tk.Button(self, text="⌂", bg='white', command=lambda: controller.show_frame(StartPage)).place(x=10, y=12)
 
-        img = Image.open('adminlogo.png')
+        img = Image.open('adminloginbg.png')
         self.tkimage = ImageTk.PhotoImage(img)
-        tk.Label(self, image=self.tkimage).place(x=500, y=90)
+        tk.Label(self, image=self.tkimage, bg='#FFA07A').place(x=0, y=40)
         label = tk.Label(self, text="if you want to become admin please contact devloper",
                          font=40, bg="orange", fg="white", padx=500)
         label.place(x=0, y=680)
@@ -114,14 +165,12 @@ class Adminlogi(tk.Frame):
         self.adminid = tk.StringVar()
         self.password = tk.StringVar()
 
-        lbl_user = tk.Label(self, text="ADMIN ID  :", font=("goudy", 15, "bold"), bg='skyblue').place(x=400, y=350)
-        self.idname = tk.Entry(self, font=("calibre", 16), borderwidth=1, bg='lightyellow',
-                               textvariable=self.adminid).place(x=550, y=350)
-        lbl_password = tk.Label(self, text="PASSWORD :", font=("goudy", 15, "bold"), bg='skyblue').place(x=390, y=400)
-        self.passwordentry = tk.Entry(self, font=("calibre", 16), borderwidth=1, bg='lightyellow', show='*',
-                                      textvariable=self.password).place(x=550, y=400)
+        self.idname = tk.Entry(self, font=("calibre", 16), borderwidth=1, bg='lightyellow',width=22,
+                               textvariable=self.adminid).place(x=810, y=328,height=40)
+        self.passwordentry = tk.Entry(self, font=("calibre", 16), borderwidth=1, bg='lightyellow', show='*',width=22,
+                                      textvariable=self.password).place(x=810, y=455,height=40)
         self.submit = ttk.Button(self, text="LOGIN", style="C.TButton",
-                                 command=lambda: self.check_function(controller)).place(x=500, y=480, width=248,
+                                 command=lambda: self.check_function(controller)).place(x=820, y=558, width=248,
                                                                                         height=45)
 
     def check_function(self, controller):
@@ -140,26 +189,22 @@ class Doctorlogin(tk.Frame):
         label = tk.Label(self, text="DOCTOR LOGIN ...", font=40, bg="red", fg="white", borderwidth=5,
                          padx=550)
         label.place(x=0, y=5)
+        img = Image.open('Doctorloginpng.png')
+        self.tkimage = ImageTk.PhotoImage(img)
+        tk.Label(self, image=self.tkimage, bg='#FFA07A').place(x=0, y=40)
         tk.Button(self, text="⌂", bg='white', command=lambda: controller.show_frame(StartPage)).place(x=10, y=12)
 
-        img = Image.open('doctorlogin.png')
-        self.tkimage = ImageTk.PhotoImage(img)
-        tk.Label(self, image=self.tkimage, background="red").place(x=500, y=90)
-        label = tk.Label(self, text="if you want to become admin please contact devloper",
-                         font=40, bg="orange", fg="white", padx=500)
-        label.place(x=0, y=680)
+
 
         self.adminid = tk.StringVar()
         self.password = tk.StringVar()
 
-        lbl_user = tk.Label(self, text="DOCTOR ID  :", font=("goudy", 15, "bold"), bg='skyblue').place(x=390, y=350)
-        self.idname = tk.Entry(self, font=("calibre", 16), borderwidth=1, bg='lightyellow',
-                               textvariable=self.adminid).place(x=550, y=350)
-        lbl_password = tk.Label(self, text="PASSWORD :", font=("goudy", 15, "bold"), bg='skyblue').place(x=390, y=400)
-        self.passwordentry = tk.Entry(self, font=("calibre", 16), borderwidth=1, bg='lightyellow', show='*',
-                                      textvariable=self.password).place(x=550, y=400)
+        self.idname = tk.Entry(self, font=("calibre", 16), borderwidth=1, bg='lightyellow',width=22,
+                               textvariable=self.adminid).place(x=810, y=328,height=40)
+        self.passwordentry = tk.Entry(self, font=("calibre", 16), borderwidth=1, bg='lightyellow', show='*',width=22,
+                                      textvariable=self.password).place(x=810, y=455,height=40)
         self.submit = ttk.Button(self, text="LOGIN", style="C.TButton",
-                                 command=lambda: self.check_function(controller)).place(x=500, y=480,
+                                 command=lambda: self.check_function(controller)).place(x=820, y=585,
                                                                                         width=248,
                                                                                         height=45)
 
@@ -171,8 +216,10 @@ class Doctorlogin(tk.Frame):
             controller.show_frame(mahesh)
         elif self.adminid.get() == "anjali" or self.password.get() == "anjali":
             controller.show_frame(anjali)
-        else:
+        elif self.adminid.get() == "ganesh" or self.password.get() == "ganesh":
             controller.show_frame(ganesh)
+        else:
+            messagebox.showerror("Error", "Invalid Username or Password")
 
 
 class shubhamak(tk.Frame):
@@ -401,9 +448,12 @@ class Pateint(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent, bg="skyblue")
-        label = tk.Label(self, text="PATEINT REGISTRATION FORM ...", font=40, bg="red", fg="white", borderwidth=5,
+        label = tk.Label(self, text="PATEINT REGISTRATION FORM ...", font=40, bg="green", fg="white", borderwidth=5,
                          padx=470)
         label.place(x=0, y=5)
+        img = Image.open('bgforreg.png')
+        self.tkimage = ImageTk.PhotoImage(img)
+        tk.Label(self, image=self.tkimage, bg='skyblue').place(x=0, y=33)
         tk.Button(self, text="⌂", bg='white', command=lambda: controller.show_frame(StartPage)).place(x=10, y=12)
         connection = mysql.connector.connect(user='root', password='', host='127.0.0.1',
                                              database='clinic_managment_system')
@@ -425,41 +475,33 @@ class Pateint(tk.Frame):
         self.state = tk.StringVar()
         self.var = tk.StringVar()
 
-        self.f_nameE = tk.Entry(self, width=20, font=5, textvariable=self.f_name)
-        self.l_nameE = tk.Entry(self, width=20, font=5, textvariable=self.l_name)
-        self.e_mailE = tk.Entry(self, width=25, font=5, textvariable=self.e_mail)
-        self.m_noE = tk.Entry(self, width=20, font=5, textvariable=self.m_no)
-        self.DOBE = tk.Entry(self, width=20, font=5, textvariable=self.DOB)
-        self.addressE = tk.Entry(self, width=30, font=5, textvariable=self.address)
-        self.pincodeE = tk.Entry(self, width=20, font=5, textvariable=self.pincode)
-        self.cityE = tk.Entry(self, width=20, font=5, textvariable=self.state)
-        self.Radio_button_maleE = tk.Radiobutton(self, text='Male', fg='black', value="Male", bg='skyblue', font=20,
-                                                 variable=self.var).place(x=450, y=220)
-        self.Radio_button_femaleE = tk.Radiobutton(self, text='Female', fg='black', value="Female", bg='skyblue',
-                                                   font=20, variable=self.var).place(x=540, y=220)
+        self.f_nameE = tk.Entry(self, width=18, font=5, textvariable=self.f_name ,bg='#FEF5B2')
+        self.l_nameE = tk.Entry(self, width=18, font=5, textvariable=self.l_name,bg='#FEF5B2')
+        self.e_mailE = tk.Entry(self, width=30, font=5, textvariable=self.e_mail,bg='#FEF5B2')
+        self.m_noE = tk.Entry(self, width=30, font=5, textvariable=self.m_no,bg='#FEF5B2')
+        self.DOBE = tk.Entry(self, width=30, font=5, textvariable=self.DOB,bg='#FEF5B2')
+        self.addressE = tk.Entry(self, width=30, font=5, textvariable=self.address,bg='#FEF5B2')
+        self.pincodeE = tk.Entry(self, width=30, font=5, textvariable=self.pincode,bg='#FEF5B2')
+        self.cityE = tk.Entry(self, width=30, font=5, textvariable=self.state,bg='#FEF5B2')
+        self.Radio_button_maleE = tk.Radiobutton(self, text='', fg='black', value="Male", font=20,bg='white',
+                                                 variable=self.var).place(x=640, y=233)
+        self.Radio_button_femaleE = tk.Radiobutton(self, text='', fg='black', value="Female",bg='white',
+                                                   font=20, variable=self.var).place(x=790, y=233)
 
-        self.f_nameE.place(x=450, y=100)
-        self.l_nameE.place(x=450, y=160)
-        self.e_mailE.place(x=450, y=280)
-        self.m_noE.place(x=450, y=340)
-        self.DOBE.place(x=450, y=400)
-        self.addressE.place(x=450, y=460)
-        self.pincodeE.place(x=450, y=520)
-        self.cityE.place(x=450, y=580)
+        self.f_nameE.place(x=640, y=150)
+        self.l_nameE.place(x=858, y=150)
+        self.e_mailE.place(x=634, y=295)
+        self.m_noE.place(x=633, y=354)
+        self.DOBE.place(x=633, y=414)
+        self.addressE.place(x=635, y=506)
+        self.pincodeE.place(x=634, y=624)
+        self.cityE.place(x=635, y=565)
 
-        self.f_nameL = tk.Label(self, text="First Name :", font=6, bg="skyblue").place(x=300, y=100)
-        self.l_nameL = tk.Label(self, text="Last Name :", font=6, bg="skyblue").place(x=300, y=160)
-        self.gender = tk.Label(self, text="Gender :", font=6, bg="skyblue").place(x=300, y=220)
-        self.e_mailL = tk.Label(self, text="E mail :", font=6, bg="skyblue").place(x=300, y=280)
-        self.m_noL = tk.Label(self, text="M no :", font=6, bg="skyblue").place(x=300, y=340)
-        self.DOBL = tk.Label(self, text="D-O-B(dd/mm/yyyy) :", font=6, bg="skyblue").place(x=190, y=400)
-        self.addressL = tk.Label(self, text="Address :", font=6, bg="skyblue").place(x=300, y=460)
-        self.pincodeL = tk.Label(self, text="Pin Code :", font=6, bg="skyblue").place(x=300, y=520)
-        self.cityL = tk.Label(self, text="City :", font=6, bg="skyblue").place(x=300, y=580)
+
 
         self.submit = ttk.Button(self, text="Next", style="C.TButton",
                                  command=lambda: [self.sendmail(controller), self.currentdata(), self.dataB()]).place(
-            x=840, y=630, width=200, height=50)
+            x=840, y=690, width=200, height=50)
 
     def currentdata(self):
         username = self.f_name.get()
@@ -496,6 +538,9 @@ class Pateint(tk.Frame):
         pincode = self.pincode.get()
         state = self.state.get()
 
+
+
+
         insert_stmt = (
             "INSERT INTO pateint_details( First_Name,Last_Name, Gender, Mobile, Email, D_O_B, Address, Pincode, State)"
             "VALUES (%s, %s, %s, %s, %s ,%s ,%s ,%s ,%s)"
@@ -508,30 +553,32 @@ class Pateint(tk.Frame):
 
     def sendmail(self, controller):
         emailid = self.e_mail.get()
+        if ((self.f_name.get() == "") and (self.l_name.get() == "") and (self.e_mail.get() == "") and (self.address.get() == "")):
+            messagebox.showerror("Error", "All feilds are required")
+        else:
+            try:
+                s = smtplib.SMTP('smtp.gmail.com', 587)
+                s.starttls()
+                s.login("vishnukantmule@gmail.com", "cgezqyarhsxghdfy")
+                SUBJECT = "Verify your Email address"
+                TEXT = f"""TO book your appointment with doctor ,we just need to make sure that this email address is yours.
 
-        try:
-            s = smtplib.SMTP('smtp.gmail.com', 587)
-            s.starttls()
-            s.login("vishnukantmule@gmail.com", "cgezqyarhsxghdfy")
-            SUBJECT = "Verify your Email address"
-            TEXT = f"""TO book your appointment with doctor ,we just need to make sure that this email address is yours.
+               To verify your email address,use this security code:{finalotp}
 
-           To verify your email address,use this security code:{finalotp}
+               if you didnt request this code. you can safely ignore this email.Someone else might have typed youremail address by mistake.
 
-           if you didnt request this code. you can safely ignore this email.Someone else might have typed youremail address by mistake.
+               Thanks,
+               The Clinic Managment Team"""
 
-           Thanks,
-           The Clinic Managment Team"""
+                message = 'Subject: {}\n\n{}'.format(SUBJECT, TEXT)
 
-            message = 'Subject: {}\n\n{}'.format(SUBJECT, TEXT)
+                s.sendmail("vishnukantmule@gmail.com", emailid, message, )
+                s.quit()
+                controller.show_frame(OtpCon)
 
-            s.sendmail("vishnukantmule@gmail.com", emailid, message, )
-            s.quit()
-            controller.show_frame(OtpCon)
-
-        except:
-            controller.show_frame(Pateint)
-            messagebox.showerror("Error", "YOU ENTER WRONG EMAIL-ID PLEASE TRY TO CORRECT")
+            except:
+                controller.show_frame(Pateint)
+                messagebox.showerror("Error", "YOU ENTER WRONG EMAIL-ID PLEASE TRY TO CORRECT")
 
 
 class Admindash(tk.Frame):
@@ -630,21 +677,44 @@ class Pateintdetail(tk.Frame):
         tk.Label(self, text="YOUR APPOINTMENT HAS BOOKED !PLZZ CHECK YOUR MAIL ONCE", font=80, fg="green",
                  borderwidth=10, background="skyblue").place(x=200, y=380)
 
+class clicinfo(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent, bg="skyblue")
 
+        label = tk.Label(self, text="CLINIC DETAILS", font=40, bg="#FF7F50", fg="white", borderwidth=5,
+                         padx=550)
+        label.place(x=0, y=5)
+        img = Image.open('cliniinfo.png')
+        self.tkimage = ImageTk.PhotoImage(img)
+        tk.Label(self, image=self.tkimage, bg='skyblue').place(x=0, y=31)
+        tk.Button(self, text="⌂", bg='white', command=lambda: controller.show_frame(StartPage)).place(x=10, y=12)
+class callclinic(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent, bg="skyblue")
+
+        label = tk.Label(self, text="CONTACT DETAILS", font=40, bg="#FF7F50", fg="white", borderwidth=5,
+                         padx=550)
+        label.place(x=0, y=5)
+        img = Image.open('callpng.png')
+        self.tkimage = ImageTk.PhotoImage(img)
+        tk.Label(self, image=self.tkimage, bg='skyblue').place(x=0, y=31)
+        tk.Button(self, text="⌂", bg='white', command=lambda: controller.show_frame(StartPage)).place(x=10, y=12)
 class OtpCon(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent, bg="skyblue")
 
-        label = tk.Label(self, text="OTP CONFIRMATION ...", font=40, bg="red", fg="white", borderwidth=5,
-                         padx=470)
+        label = tk.Label(self, text="OTP CONFIRMATION ...", font=40, bg="green", fg="white", borderwidth=5,
+                         padx=500)
         label.place(x=0, y=5)
+        img = Image.open('otpconbg.png')
+        self.tkimage = ImageTk.PhotoImage(img)
+        tk.Label(self, image=self.tkimage, bg='skyblue').place(x=0, y=34)
         tk.Button(self, text="⌂", bg='white', command=lambda: controller.show_frame(StartPage)).place(x=10, y=12)
 
         self.VALUE = tk.IntVar()
-        tk.Label(self, width=20, font=20, bg="skyblue", text="ENTER THE OTP").place(x=400, y=120)
-        self.OTP = tk.Entry(self, width=20, font=20, textvariable=self.VALUE).place(x=500, y=200, height=30)
+        self.OTP = tk.Entry(self, width=33, font=20,bg='#d9d9d9' ,textvariable=self.VALUE).place(x=698, y=285, height=40)
         self.GENERATE = ttk.Button(self, text="Confirm", style="C.TButton",
-                                   command=lambda: self.confirmfn(controller)).place(x=460, y=400, width=300, height=45)
+                                   command=lambda: self.confirmfn(controller)).place(x=730, y=500, width=300, height=45)
 
     def confirmfn(self, controller):
         otpsended = int(finalotp)
@@ -1108,5 +1178,5 @@ if __name__ == "__main__":
     # app.maxsize(1150,750)
     app.minsize(1150, 750)
     app.title("CLINI MANAGMENT SYSTEM")
-    app.iconbitmap(r'iconico.ico')
+    app.iconbitmap(r'clinic.ico')
     app.mainloop()
