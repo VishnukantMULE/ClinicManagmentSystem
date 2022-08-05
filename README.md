@@ -19,6 +19,9 @@ patient details.
 Administration in the best possible way also reduce the human 
 efforts
 
+#Requirements:
+1.Python 3.9
+
 # Team members
  <br/>Vishnukant Mule
  <br/>Avinash Andhale
